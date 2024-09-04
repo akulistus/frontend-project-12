@@ -1,10 +1,19 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../services/authApi";
+import { setToken } from "../../slices/authSlice";
+
+import { Formik } from 'formik';
+
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login, { isError }] = useLoginMutation();
 
-  const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
   return (
     <div>
       <h1>LogIn</h1>
@@ -14,19 +23,35 @@ const Login = () => {
           password: '',
         }}
         onSubmit={async (values) => {
-          login(values);
-          if (isError) {
-            console.log('yay');
-          }
+          const response = await login(values).unwrap();
+          dispatch(setToken(response));
+          navigate('/');
         }}
-      >
-        <Form>
-          <label htmlFor="username">Username</label>
-          <Field id="username" name="username" placeholder="Username" />
-          <label htmlFor="password">Password</label>
-          <Field id="password" name="password" type="password" />
-          <button type="submit">LogIn</button>
-        </Form>
+      > 
+        {props => (
+          <Form noValidate onSubmit={props.handleSubmit}>
+            <Form.Label>Username</Form.Label>
+            <Form.Control 
+              type="text" 
+              name="username" 
+              placeholder="Username"
+              value={props.values.username}
+              onChange={props.handleChange}
+              isInvalid={isError}
+            />
+            <Form.Label>Password</Form.Label>
+            <Form.Control 
+              type="password" 
+              name="password" 
+              placeholder="password"
+              value={props.values.password}
+              onChange={props.handleChange}
+              isInvalid={isError}
+            />
+            <Form.Control.Feedback type="invalid">Неправильный логин или пароль</Form.Control.Feedback>
+            <Button type="submit">LogIn</Button>
+          </Form>
+        )}
       </Formik>
     </div>
   );
