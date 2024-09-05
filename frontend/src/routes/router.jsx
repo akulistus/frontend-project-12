@@ -14,15 +14,18 @@ const router = createBrowserRouter([
         loader: async () => {
             const token = selectToken(store.getState());
             if (!token) {
-                return redirect('/login'); 
+                return redirect('login'); 
             };
             return null;
         },
+        children: [
+            {
+                index: true,
+                path: 'login',
+                element: <Login />,
+            },
+        ],
     },
-    {
-        path: '/login',
-        element: <Login />,
-    }
 ]);
 
 export default router;
