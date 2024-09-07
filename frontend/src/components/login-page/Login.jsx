@@ -6,7 +6,10 @@ import { setToken } from "../../slices/authSlice";
 
 import { Formik } from 'formik';
 
+import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
@@ -16,47 +19,56 @@ const Login = () => {
   const [login, { isError }] = useLoginMutation();
 
   return (
-    <div>
-      <Formik
-        initialValues={{
-          username: '',
-          password: '',
-        }}
-        onSubmit={async (values) => {
-          const response = await login(values).unwrap();
-          dispatch(setToken(response));
-          navigate('/');
-        }}
-      >
-        {props => (
-          <Container>
-            <h1>LogIn</h1>
-            <Form noValidate onSubmit={props.handleSubmit}>
-              <Form.Label>Username</Form.Label>
-              <Form.Control 
-                type="text" 
-                name="username" 
-                placeholder="Username"
-                value={props.values.username}
-                onChange={props.handleChange}
-                isInvalid={isError}
-              />
-              <Form.Label>Password</Form.Label>
-              <Form.Control 
-                type="password" 
-                name="password" 
-                placeholder="password"
-                value={props.values.password}
-                onChange={props.handleChange}
-                isInvalid={isError}
-              />
-              <Form.Control.Feedback type="invalid">Неправильный логин или пароль</Form.Control.Feedback>
-              <Button type="submit">LogIn</Button>
-            </Form>
-          </Container>
-        )}
-      </Formik>
-    </div>
+    <Container fluid className='h-100'>
+        <Row className='justify-content-center align-content-center h-100'>
+          <Col md={8} xxl={6}>
+            <Card>
+              <Card.Title>Login</Card.Title>
+              <Card.Body>
+                <Formik
+                  initialValues={{
+                    username: '',
+                    password: '',
+                  }}
+                  onSubmit={async (values) => {
+                    const response = await login(values).unwrap();
+                    dispatch(setToken(response));
+                    navigate('/');
+                  }}
+                >
+                  {props => (
+                      <Form noValidate onSubmit={props.handleSubmit}>
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control 
+                          type="text" 
+                          name="username" 
+                          placeholder="Username"
+                          value={props.values.username}
+                          onChange={props.handleChange}
+                          isInvalid={isError}
+                        />
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control 
+                          type="password" 
+                          name="password" 
+                          placeholder="password"
+                          value={props.values.password}
+                          onChange={props.handleChange}
+                          isInvalid={isError}
+                        />
+                        <Form.Control.Feedback type="invalid">Неправильный логин или пароль</Form.Control.Feedback>
+                        <Button type="submit">LogIn</Button>
+                      </Form>
+                  )}
+                </Formik>
+              </Card.Body>
+              <Card.Footer>
+                {`Footer`}
+              </Card.Footer>
+            </Card>
+          </Col>
+        </Row>
+    </Container>
   );
 };
 

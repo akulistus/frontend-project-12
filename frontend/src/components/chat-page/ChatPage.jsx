@@ -9,12 +9,12 @@ import Row from 'react-bootstrap/Row';
 
 const ChatPage = (props) => {
 	return (
-		<Container>
-			<Row>
-				<Col md={2}>
+		<Container className="h-100 shadow rounded overflow-hidden my-4">
+			<Row className="h-100">
+				<Col md={2} className="px-0">
 					<ChannelList />
 				</Col>
-				<Col>
+				<Col className="px-0">
 					<Chat />
 				</Col>
 			</Row>
