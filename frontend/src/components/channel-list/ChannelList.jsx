@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { setChannels } from "../../slices/channelSlice";
+import { setChannels, setSelected } from "../../slices/channelSlice";
 import { useGetChannelsQuery } from "../../services/channelApi";
 import { useDispatch } from "react-redux";
 
@@ -10,7 +10,16 @@ import Button from "react-bootstrap/Button";
 
 const ChannelList = (props) => {
   const { data, error, isLoading, refetch } = useGetChannelsQuery();
-  useDispatch(setChannels(data));
+  const dispath = useDispatch();
+
+  useEffect(() => {
+    dispath(setChannels(data));
+  }, []);
+
+  const handleSelect = (eventKey) => {
+    const selected = data.find((channel) => channel.name === eventKey);
+    dispath(setSelected(selected));
+  };
 
   if (isLoading) return null;
 
@@ -21,7 +30,7 @@ const ChannelList = (props) => {
 				<Button onClick={() => console.log('yay')}>add</Button>
 			</Container>
 			<Container className="h-100">
-        <Nav as='ul' variant="pills" className="flex-column">
+        <Nav as='ul' variant="pills" className="flex-column" onSelect={handleSelect}>
           {data.map((channel) => (
             <Nav.Item action as='li'>
               <Nav.Link eventKey={channel.name}>{`# ${channel.name}`}</Nav.Link>

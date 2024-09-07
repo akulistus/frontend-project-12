@@ -1,7 +1,8 @@
 import React from "react";
-
-import { useGetMessagesQuery } from '../../services/messageApi';
+import { useSelector } from "react-redux";
 import { Formik } from 'formik';
+
+import { useGetMessagesQuery, usePostMessageMutation } from '../../services/messageApi';
 
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -10,13 +11,16 @@ import Container from 'react-bootstrap/Container';
 
 const Chat = (props) => {
 	const { data, isLoading } = useGetMessagesQuery();
+  const [postMessage, { isError, isSuccess }] = usePostMessageMutation();
+  const selectedChannel = useSelector((state) => state.channels.selected);
+  const username = useSelector((state) => state.auth.username);
 
 	if (isLoading) return null;
-
+  
 	return (
 		<Container fluid className="d-flex flex-column h-100 px-0">
       <Container fluid className="p-3 mb-4 bg-dark-subtle shadow-sm small">
-        Имя чата
+        { selectedChannel && selectedChannel.name}
         Кол-во сообщений
       </Container>
       <Container fluid className="overflow-auto px-5">
@@ -32,7 +36,12 @@ const Chat = (props) => {
             message: '',
           }}
           onSubmit={async (values) => {
-            console.log(values);
+            const message = { 
+              body: values.message,
+              id: selectedChannel.id,
+              username: username,
+            };
+            const response = postMessage(message);
           }}
         >
           {props => (

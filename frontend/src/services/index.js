@@ -20,4 +20,4 @@ export default configureStore({
       .concat(authApi.middleware)
       .concat(channelApi.middleware)
       .concat(messageApi.middleware),
-})
+});
