@@ -1,7 +1,7 @@
 import React from "react";
 
-import ChannelList from "../channel-list/ChannelList";
-import Chat from "../chat/Chat";
+import ChannelList from "../../components/channel-list/ChannelList";
+import Chat from "../../components/chat/Chat";
 
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';

@@ -1,7 +1,7 @@
-import Home from "../components/home-page/Home";
-import Login from "../components/login-page/Login";
-import ChatPage from "../components/chat-page/ChatPage";
-import ErrorPage from "../components/error-page/ErrorPage";
+import Home from "../pages/home-page/Home";
+import Login from "../pages/login-page/Login";
+import ChatPage from "../pages/chat-page/ChatPage";
+import ErrorPage from "../pages/error-page/ErrorPage";
 
 import { createBrowserRouter, redirect } from "react-router-dom";
 import store from '../services/index';

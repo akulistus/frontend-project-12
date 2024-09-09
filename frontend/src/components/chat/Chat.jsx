@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Formik } from 'formik';
 
-import { useGetMessagesQuery, usePostMessageMutation } from '../../services/messageApi';
+import { useGetMessagesQuery, usePostMessageMutation } from '../../services/api';
 
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -16,7 +16,7 @@ const Chat = (props) => {
   const username = useSelector((state) => state.auth.username);
 
 	if (isLoading) return null;
-  
+
 	return (
 		<Container fluid className="d-flex flex-column h-100 px-0">
       <Container fluid className="p-3 mb-4 bg-dark-subtle shadow-sm small">
@@ -24,11 +24,7 @@ const Chat = (props) => {
         Кол-во сообщений
       </Container>
       <Container fluid className="overflow-auto px-5">
-        {data.map((message) => (
-          <div className="text-break md-2">
-            <b>{message.username}</b> {message.body}
-          </div>
-        ))}
+        { selectedChannel && renderMessages(data, selectedChannel.id)}
       </Container>
       <Container className="px-5 py-3 mt-auto">
         <Formik
@@ -38,10 +34,10 @@ const Chat = (props) => {
           onSubmit={async (values) => {
             const message = { 
               body: values.message,
-              id: selectedChannel.id,
+              channelId: selectedChannel.id,
               username: username,
             };
-            const response = postMessage(message);
+            postMessage(message);
           }}
         >
           {props => (
@@ -54,7 +50,7 @@ const Chat = (props) => {
                   value={props.values.message}
                   onChange={props.handleChange}
                 />
-                <Button type="submit">
+                <Button type='submit'>
                   Button
                 </Button>
               </InputGroup>
@@ -65,5 +61,14 @@ const Chat = (props) => {
 		</Container>
 	);
 };
+
+const renderMessages = (messages, channelId) =>
+  messages
+    .filter((message) => message.channelId === channelId)
+    .map((message) => (
+      <div className="text-break md-2">
+        <b>{message.username}</b> {message.body}
+      </div>
+    ));
 
 export default Chat;
