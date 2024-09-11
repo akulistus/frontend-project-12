@@ -1,17 +1,20 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import LogOutButton from '../../components/log-out-button/LogOutButton';
 import Container from 'react-bootstrap/esm/Container';
 import Navbar from 'react-bootstrap/Navbar';
 
 import './App.css';
 
 const Home = () => {
+
   return (
     <div className='h-100 d-flex flex-column'>
       <Navbar bg='dark' data-bs-theme="dark" sticky='top'>
         <Container>
-          <Navbar.Brand>Chat</Navbar.Brand>
+          <Navbar.Brand href='/'>Hexlet Chat</Navbar.Brand>
+          <LogOutButton />
         </Container>
       </Navbar>
       <Outlet/>

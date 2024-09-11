@@ -1,24 +1,21 @@
-import React from "react";
+import React from 'react';
 
-import LogInForm from '../../components/log-in-form/LogInForm';
+import SignUpForm from '../../components/sign-up-form/SignUpForm';
+
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-const Login = () => {
+const SignUpPage = (props) => {
   return (
     <Container fluid className='h-100'>
         <Row className='justify-content-center align-content-center h-100'>
           <Col md={8} xxl={6}>
             <Card>
-              <Card.Title>Login</Card.Title>
               <Card.Body>
-                <LogInForm />
+                <SignUpForm />
               </Card.Body>
-              <Card.Footer>
-                {`Footer`}
-              </Card.Footer>
             </Card>
           </Col>
         </Row>
@@ -26,4 +23,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUpPage;

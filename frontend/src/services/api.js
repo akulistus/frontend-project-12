@@ -24,6 +24,13 @@ export const api = createApi({
         body: user,
       }),
     }),
+    signUp: builder.mutation({
+      query: (newUser) => ({
+        url: 'signup',
+        method: 'POST',
+        body: newUser,
+      }),
+    }),
     getChannels: builder.query({
       query: () => 'channels',
       async onCacheEntryAdded(
@@ -106,6 +113,7 @@ export const api = createApi({
 
 export const { 
   useLoginMutation,
+  useSignUpMutation,
   useGetChannelsQuery,
   useAddChannelMutation,
   useRemoveChannelMutation,
