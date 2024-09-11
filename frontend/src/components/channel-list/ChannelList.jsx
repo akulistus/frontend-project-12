@@ -1,56 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { setSelected } from "../../slices/channelSlice";
+import { setSelected, setDefault } from "../../slices/channelSlice";
 import { useGetChannelsQuery } from "../../services/api";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
-import ChannelCreationModal from "../channel-creation-modal/ChannelCreationModal";
-import ChannelDeletionModal from "../channel-deletion-modal/ChannelDeletionModal";
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
+import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
+import ChannelEditModal from '../channel-edit-modal/ChannelEditModal';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-
-const renderNavItems = (data) => 
-  data.map((channel) => {
-    if (channel.removable) {
-      return (
-        <NavDropdown as='li' title={`# ${channel.name}`}>
-          <NavDropdown.Item eventKey={`${channel.id}/delete`}>Удалить</NavDropdown.Item>
-          <NavDropdown.Item eventKey={`${channel.id}/rename`}>Переименовать</NavDropdown.Item>
-        </NavDropdown>
-      );
-    }
-
-    return (
-      <Nav.Item action as='li'>
-        <Nav.Link eventKey={channel.id}>{`# ${channel.name}`}</Nav.Link>
-      </Nav.Item>
-    )
-  })
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import SplitButton  from 'react-bootstrap/SplitButton';
 
 const ChannelList = (props) => {
-  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [editedChannel, setEditedChannel] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { data, error, isLoading } = useGetChannelsQuery();
-  const dispath = useDispatch();
+  const [showEditModal, setShowEditModal] = useState(false);
 
-  const handleSelect = (eventKey) => {
-    const parsedEvent = eventKey.split('/');
-    if (parsedEvent.length > 1) {
-      switch (parsedEvent.at(-1)) {
-        case 'delete': 
-          setShowDeleteModal(true);
-          setSelectedChannel(parsedEvent[0]);
-          break;
-        case 'rename':
-          break;
-      }
-    }
-    const selected = data.find((channel) => channel.id === eventKey);
-    dispath(setSelected(selected));
+  const selectedChannel = useSelector((state) => state.channels.selected);
+  const { data, isLoading } = useGetChannelsQuery();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setDefault());
+  }, []);
+
+  const handleClick = (index) => {
+    const selected = data[index];
+    dispatch(setSelected(selected));
   };
+
+  const handleDelete = (index) => {
+    setShowDeleteModal(true);
+    setEditedChannel(data[index]);
+  };
+
+  const handelRename = (index) => {
+    setShowEditModal(true);
+    setEditedChannel(data[index]);
+  };
+
+  const renderNavItems = (data) => 
+    data.map((channel, index) => {
+      const variant = channel.id === selectedChannel.id ? 'secondary': '';
+      if (channel.removable) {
+        return (
+          <Nav.Item action as='li'>
+            <SplitButton
+              key={channel.name}
+              title={channel.name}
+              variant={variant}
+              onClick={() => handleClick(index)}
+            >
+              <Dropdown.Item onClick={() => handleDelete(index)}>Удалить</Dropdown.Item>
+              <Dropdown.Item onClick={() => handelRename(index)}>Переименовать</Dropdown.Item>
+            </SplitButton>
+          </Nav.Item>
+        );
+      }
+
+      return (
+        <Nav.Item action as='li'>
+          <Button variant={variant} onClick={() => handleClick(index)}>{`# ${channel.name}`}</Button>
+        </Nav.Item>
+      );
+    });
 
   if (isLoading) return null;
 
@@ -61,12 +78,13 @@ const ChannelList = (props) => {
 				<Button onClick={() => setShowCreateModal(true)}>add</Button>
 			</Container>
 			<Container className="h-100">
-        <Nav as='ul' variant="pills" className="flex-column" defaultActiveKey='general' onSelect={handleSelect}>
+        <Nav as='ul' variant="pills" className="flex-column">
           {renderNavItems(data)}
         </Nav>
 			</Container>
-      <ChannelCreationModal show={showCreateModal} setShow={setShowCreateModal} />
-      <ChannelDeletionModal show={showDeleteModal} setShow={setShowDeleteModal} channelId={selectedChannel}/>
+      {showCreateModal && <ChannelCreationModal show={showCreateModal} setShow={setShowCreateModal} />}
+      {showDeleteModal && <ChannelDeletionModal show={showDeleteModal} setShow={setShowDeleteModal} selectedChannel={editedChannel} />}
+      {showEditModal && <ChannelEditModal show={showEditModal} setShow={setShowEditModal} selectedChannel={editedChannel} />}
 		</div>
 	);
 };

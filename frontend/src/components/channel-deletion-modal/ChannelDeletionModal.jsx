@@ -6,12 +6,12 @@ import Modal from 'react-bootstrap/Modal';
 import Button from "react-bootstrap/Button";
 
 const ChannelDeletionModal = (props) => {
-  const { show, setShow, channelId } = props;
+  const { show, setShow, selectedChannel } = props;
   const [removeChannel] = useRemoveChannelMutation();
 
   const handleClose = () => setShow(false);
   const handleDelete = () => {
-    removeChannel(channelId);
+    removeChannel(selectedChannel.id);
     setShow(false);
   };
 

@@ -12,19 +12,21 @@ import Container from 'react-bootstrap/Container';
 const Chat = (props) => {
 	const { data, isLoading } = useGetMessagesQuery();
   const [postMessage, { isError, isSuccess }] = usePostMessageMutation();
+
   const selectedChannel = useSelector((state) => state.channels.selected);
   const username = useSelector((state) => state.auth.username);
 
 	if (isLoading) return null;
 
+  console.log(data);
 	return (
 		<Container fluid className="d-flex flex-column h-100 px-0">
       <Container fluid className="p-3 mb-4 bg-dark-subtle shadow-sm small">
-        { selectedChannel && selectedChannel.name}
+        {selectedChannel.name}
         Кол-во сообщений
       </Container>
       <Container fluid className="overflow-auto px-5">
-        { selectedChannel && renderMessages(data, selectedChannel.id)}
+        {renderMessages(data, selectedChannel.id)}
       </Container>
       <Container className="px-5 py-3 mt-auto">
         <Formik

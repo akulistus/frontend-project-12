@@ -2,20 +2,16 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
-import { useGetChannelsQuery, useAddChannelMutation } from "../../services/api";
-import { useDispatch } from "react-redux";
-import { setSelected } from "../../slices/channelSlice";
+import { useGetChannelsQuery, useEditChannelMutation } from "../../services/api";
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-const ChannelCreationModal = (props) => {
+const ChannelEditModal = (props) => {
   const { data } = useGetChannelsQuery();
-  const [addChannel] = useAddChannelMutation();
-  const { show, setShow } = props;
-
-  const dispatch = useDispatch();
+  const [editChannel] = useEditChannelMutation();
+  const { show, setShow, selectedChannel } = props;
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -29,10 +25,13 @@ const ChannelCreationModal = (props) => {
 
   return (
     <Formik
-      initialValues={{ name: ''}}
+      initialValues={{ name: selectedChannel.name}}
       onSubmit={async (values) => {
-        const response = await addChannel(values).unwrap();
-        dispatch(setSelected(response));
+        const newChannel = {
+          id: selectedChannel.id,
+          body: values,
+        };
+        editChannel(newChannel);
         handleClose();
       }}
       validationSchema={validationSchema}
@@ -42,7 +41,7 @@ const ChannelCreationModal = (props) => {
       {props => (
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Добавить канал</Modal.Title>
+            <Modal.Title>Переименовать канал</Modal.Title>
           </Modal.Header>
           <Form noValidate onSubmit={props.handleSubmit}>
             <Modal.Body>
@@ -71,4 +70,4 @@ const ChannelCreationModal = (props) => {
   );
 };
 
-export default ChannelCreationModal;
+export default ChannelEditModal;

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { io } from 'socket.io-client';
+import { setDefault } from '../slices/channelSlice';
 
 const socket = io();
 
@@ -27,7 +28,7 @@ export const api = createApi({
       query: () => 'channels',
       async onCacheEntryAdded(
         arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) {
         await cacheDataLoaded;
 
@@ -39,8 +40,15 @@ export const api = createApi({
 
         socket.on('removeChannel',(event) => {
           updateCachedData(draft => {
+            return draft.filter((channel) => channel.id !== event.id);
+          });
+          dispatch(setDefault());
+        });
+
+        socket.on('renameChannel', (event) => {
+          updateCachedData(draft => {
             const index = draft.findIndex(channel => channel.id === event.id);
-            if (index !== -1) draft.splice(index, 1);
+            draft[index] = event;
           });
         });
       }
@@ -58,6 +66,13 @@ export const api = createApi({
         method: 'DELETE',
       }),
     }),
+    editChannel: builder.mutation({
+      query: (newChannel) => ({
+        url: `channels/${newChannel.id}`,
+        method: 'PATCH',
+        body: newChannel.body,
+      }),
+    }),
     getMessages: builder.query({
 			query: () => 'messages',
       async onCacheEntryAdded(
@@ -66,13 +81,17 @@ export const api = createApi({
       ) {
         await cacheDataLoaded;
 
-        const listener = (event) => {
+        socket.on('newMessage', (event) => {
           updateCachedData(draft => {
             draft.push(event);
           });
-        };
+        });
 
-        socket.on('newMessage', listener);
+        socket.on('removeChannel', (event) => {
+          updateCachedData(draft => {
+            return draft.filter((message) => message.channelId !== event.id);
+          });
+        });
       }
 		}),
 		postMessage: builder.mutation({
@@ -90,6 +109,7 @@ export const {
   useGetChannelsQuery,
   useAddChannelMutation,
   useRemoveChannelMutation,
+  useEditChannelMutation,
   useGetMessagesQuery,
   usePostMessageMutation,
 } = api;

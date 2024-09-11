@@ -32,7 +32,6 @@ const Login = () => {
                   }}
                   onSubmit={async (values) => {
                     const response = await login(values).unwrap();
-                    console.log(response);
                     dispatch(setToken(response));
                     navigate('/');
                   }}
