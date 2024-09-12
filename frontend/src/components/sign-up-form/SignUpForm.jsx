@@ -11,11 +11,12 @@ import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { toast } from 'react-toastify';
 
 const SignUpForm = (props) => {
   const { t } = useTranslation();
   const [registrationError, setRegistrationError] = useState(null);
-  const [singUp, { isError, isSuccess, data }] = useSignUpMutation();
+  const [singUp, { isError, isSuccess, data, error }] = useSignUpMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,7 +25,7 @@ const SignUpForm = (props) => {
       dispatch(setToken(data));
       navigate('/');
       return;
-    } else if (isError) {
+    } else if (isError && error?.status !== 'FETCH_ERROR') {
       setRegistrationError(t('forms.signUpForm.errors.userAlreadyExists'));
     }
   }, [isError, isSuccess]);
@@ -42,7 +43,7 @@ const SignUpForm = (props) => {
           username: values.username,
           password: values.password,
         };
-        singUp(newUser).unwrap();
+        singUp(newUser);
       }}
     >
       {props => (

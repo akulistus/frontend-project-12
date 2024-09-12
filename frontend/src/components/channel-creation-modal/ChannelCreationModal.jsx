@@ -2,6 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
+import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useGetChannelsQuery, useAddChannelMutation } from "../../services/api";
 import { useDispatch } from "react-redux";
@@ -33,8 +34,13 @@ const ChannelCreationModal = (props) => {
     <Formik
       initialValues={{ name: ''}}
       onSubmit={async (values) => {
-        const response = await addChannel(values).unwrap();
-        dispatch(setSelected(response));
+        addChannel(values)
+          .then((data) => {
+            if (!data.error) {
+              dispatch(setSelected(data));
+              toast.success(t('notifications.channelSuccessfullyCreated'));
+            }
+          });
         handleClose();
       }}
       validationSchema={validationSchema}

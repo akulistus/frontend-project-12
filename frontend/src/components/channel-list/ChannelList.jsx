@@ -63,7 +63,6 @@ const ChannelList = (props) => {
           </Nav.Item>
         );
       }
-
       return (
         <Nav.Item action as='li'>
           <Button variant={variant} onClick={() => handleClick(index)}>{`# ${channel.name}`}</Button>

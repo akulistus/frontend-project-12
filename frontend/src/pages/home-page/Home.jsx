@@ -1,11 +1,13 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { ToastContainer } from 'react-toastify';
 import LogOutButton from '../../components/log-out-button/LogOutButton';
 import Container from 'react-bootstrap/esm/Container';
 import Navbar from 'react-bootstrap/Navbar';
 
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
 
@@ -18,6 +20,7 @@ const Home = () => {
         </Container>
       </Navbar>
       <Outlet/>
+      <ToastContainer />
     </div>
   );
 };

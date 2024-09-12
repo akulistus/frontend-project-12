@@ -13,7 +13,7 @@ import Container from 'react-bootstrap/Container';
 const Chat = (props) => {
   const { t } = useTranslation();
 	const { data, isLoading } = useGetMessagesQuery();
-  const [postMessage, { isError, isSuccess }] = usePostMessageMutation();
+  const [postMessage] = usePostMessageMutation();
 
   const selectedChannel = useSelector((state) => state.channels.selected);
   const username = useSelector((state) => state.auth.username);

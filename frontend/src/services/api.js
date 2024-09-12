@@ -1,21 +1,36 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { io } from 'socket.io-client';
 import { setDefault } from '../slices/channelSlice';
+import { toast } from 'react-toastify';
+import i18n from '../i18next';
 
 const socket = io();
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: '/api/v1',
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState().auth.token;
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
+const baseQueryWithErrorHandling = async (args, api, extraOptions) => {
+  const result = await baseQuery(args, api, extraOptions);
+  if (result.error) {
+    if (result.error.status === 'FETCH_ERROR') {
+      toast.error(i18n.t('notifications.connectionError'));
+    }
+  }
+  return result;
+};
+
+
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: '/api/v1',
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token;
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithErrorHandling,
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (user) => ({

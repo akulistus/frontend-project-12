@@ -1,5 +1,6 @@
 import React from "react";
 
+import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useRemoveChannelMutation } from "../../services/api";
 
@@ -13,8 +14,9 @@ const ChannelDeletionModal = (props) => {
 
   const handleClose = () => setShow(false);
   const handleDelete = () => {
-    removeChannel(selectedChannel.id);
-    setShow(false);
+    removeChannel(selectedChannel.id)
+      .then(() => toast.success(t('notifications.channelSuccessfullyDeleted')));
+    handleClose();
   };
 
   return (

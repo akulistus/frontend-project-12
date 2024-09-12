@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
@@ -13,9 +13,16 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 const LogInForm = (props) => {
   const { t } = useTranslation();
-  const [login, { isError }] = useLoginMutation();
+  const [login, { isError, isSuccess, error, isLoading, data }] = useLoginMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setToken(data));
+      navigate('/');
+    }
+  }, [isLoading]);
 
   return (
     <Formik
@@ -24,9 +31,7 @@ const LogInForm = (props) => {
         password: '',
       }}
       onSubmit={async (values) => {
-        const response = await login(values).unwrap();
-        dispatch(setToken(response));
-        navigate('/');
+        login(values);
       }}
     >
       {props => (
@@ -49,7 +54,7 @@ const LogInForm = (props) => {
               placeholder='none'
               value={props.values.password}
               onChange={props.handleChange}
-              isInvalid={isError}
+              isInvalid={isError && error?.status !== 'FETCH_ERROR'}
             />
             <Form.Control.Feedback type="invalid">{t('forms.logInForm.errors.invalidLoginAttempt')}</Form.Control.Feedback>
           </FloatingLabel>

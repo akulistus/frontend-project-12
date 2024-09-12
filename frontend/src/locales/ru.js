@@ -71,6 +71,12 @@ export default {
       cancel: 'Отменить',
       delete: 'Удалить',
       send: 'Отправить',
+    },
+    notifications: {
+      channelSuccessfullyDeleted: 'Канал удалён',
+      channelSuccessfullyRenamed: 'Канал переименован',
+      channelSuccessfullyCreated: 'Канал создан',
+      connectionError: 'Ошибка соединения',
     }
   },
 };

@@ -12,7 +12,6 @@ const Login = () => {
         <Row className='justify-content-center align-content-center h-100'>
           <Col md={8} xxl={6}>
             <Card>
-              <Card.Title>Login</Card.Title>
               <Card.Body>
                 <LogInForm />
               </Card.Body>

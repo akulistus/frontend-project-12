@@ -2,6 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
+import { toast } from 'react-toastify';
 import { useTranslation } from "react-i18next";
 import { useGetChannelsQuery, useEditChannelMutation } from "../../services/api";
 
@@ -33,7 +34,8 @@ const ChannelEditModal = (props) => {
           id: selectedChannel.id,
           body: values,
         };
-        editChannel(newChannel);
+        editChannel(newChannel)
+          .then(() => toast.success(t('notifications.channelSuccessfullyRenamed')));
         handleClose();
       }}
       validationSchema={validationSchema}
