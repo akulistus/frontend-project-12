@@ -25,7 +25,7 @@ const Chat = (props) => {
 		<Container fluid className="d-flex flex-column h-100 px-0">
       <Container fluid className="p-3 mb-4 bg-dark-subtle shadow-sm small">
         {selectedChannel.name}
-        {t('chat.message', { count: data.length })}
+        {t('chat.message', { count: data.filter((message) => message.channelId === selectedChannel.id).length })}
       </Container>
       <Container fluid className="overflow-auto px-5">
         {renderMessages(data, selectedChannel.id)}
