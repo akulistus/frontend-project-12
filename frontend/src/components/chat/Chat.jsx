@@ -1,4 +1,5 @@
 import React from "react";
+import filter from 'leo-profanity';
 import { useSelector } from "react-redux";
 import { Formik } from 'formik';
 import { useTranslation } from "react-i18next";
@@ -9,6 +10,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+
+filter.loadDictionary('ru');
 
 const Chat = (props) => {
   const { t } = useTranslation();
@@ -36,7 +39,7 @@ const Chat = (props) => {
           }}
           onSubmit={async (values) => {
             const message = { 
-              body: values.message,
+              body: filter.clean(values.message),
               channelId: selectedChannel.id,
               username: username,
             };
