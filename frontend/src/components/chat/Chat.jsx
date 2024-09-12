@@ -11,8 +11,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
-filter.loadDictionary('ru');
-
 const Chat = (props) => {
   const { t } = useTranslation();
 	const { data, isLoading } = useGetMessagesQuery();

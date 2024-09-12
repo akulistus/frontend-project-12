@@ -1,4 +1,5 @@
 import React from "react";
+import filter from 'leo-profanity';
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
@@ -34,7 +35,7 @@ const ChannelCreationModal = (props) => {
     <Formik
       initialValues={{ name: ''}}
       onSubmit={async (values) => {
-        addChannel(values)
+        addChannel({ name: filter.clean(values.name) })
           .then((data) => {
             if (!data.error) {
               dispatch(setSelected(data));
