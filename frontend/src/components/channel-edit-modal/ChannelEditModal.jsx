@@ -35,7 +35,11 @@ const ChannelEditModal = (props) => {
           body: values,
         };
         editChannel(newChannel)
-          .then(() => toast.success(t('notifications.channelSuccessfullyRenamed')));
+          .then((data) => {
+            if (!data.error) {
+              toast.success(t('notifications.channelSuccessfullyRenamed'));
+            }
+          });
         handleClose();
       }}
       validationSchema={validationSchema}

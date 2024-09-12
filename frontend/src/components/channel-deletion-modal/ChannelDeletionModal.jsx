@@ -15,7 +15,11 @@ const ChannelDeletionModal = (props) => {
   const handleClose = () => setShow(false);
   const handleDelete = () => {
     removeChannel(selectedChannel.id)
-      .then(() => toast.success(t('notifications.channelSuccessfullyDeleted')));
+      .then((data) => {
+        if (!data.error) {
+          toast.success(t('notifications.channelSuccessfullyDeleted'));
+        }
+      });
     handleClose();
   };
 

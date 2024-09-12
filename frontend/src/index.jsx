@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { Provider as ProviderRollback, ErrorBoundary } from '@rollbar/react'
 import i18next from './i18next';
 
 import { RouterProvider } from 'react-router-dom';
@@ -8,13 +8,23 @@ import { Provider } from 'react-redux';
 import store from './services/index';
 import router from './routes/router';
 
+import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+const rollbarConfig = {
+  accessToken: '513cf3ff61864d08a5b5f6f8f36da12b',
+  environment: 'production',
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+    <ProviderRollback config={rollbarConfig}>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+      </ErrorBoundary>
+    </ProviderRollback>
   </React.StrictMode>
 );
