@@ -4,6 +4,7 @@ import { setSelected, setDefault } from "../../slices/channelSlice";
 import { useGetChannelsQuery } from "../../services/api";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
 import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
@@ -19,8 +20,9 @@ const ChannelList = (props) => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-
+  
   const selectedChannel = useSelector((state) => state.channels.selected);
+  const { t } = useTranslation();
   const { data, isLoading } = useGetChannelsQuery();
   const dispatch = useDispatch();
 
@@ -74,7 +76,7 @@ const ChannelList = (props) => {
 	return (
 		<div className="d-flex flex-column bg-dark-subtle border-end h-100">
 			<Container className="d-flex justify-content-between p-4 mt-1 mb-2 pe-2">
-				<b>Каналы</b>
+				<b>{t('chat.channels')}</b>
 				<Button onClick={() => setShowCreateModal(true)}>add</Button>
 			</Container>
 			<Container className="h-100">

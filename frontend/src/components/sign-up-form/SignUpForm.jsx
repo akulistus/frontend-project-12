@@ -1,34 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import * as Yup from 'yup';
+
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useSignUpMutation } from '../../services/api';
 import { setToken } from '../../slices/authSlice';
+import validationSchema from '../../validation/signUpFormValitation';
 
 import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
-const validationSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов')
-    .required('Обязательное поле'),
-  password: Yup.string()
-    .min(6, 'Не менее 6 символов')
-    .required('Обязательное поле'),
-  confirmPassword: Yup.string()
-    .oneOf([
-      Yup.ref('password'),
-    ], 'Пароли должны совпадать'),
-});
-
 const SignUpForm = (props) => {
+  const { t } = useTranslation();
   const [registrationError, setRegistrationError] = useState(null);
+  const [singUp, { isError, isSuccess, data }] = useSignUpMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [singUp, { isError, isSuccess, data }] = useSignUpMutation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -36,7 +25,7 @@ const SignUpForm = (props) => {
       navigate('/');
       return;
     } else if (isError) {
-      setRegistrationError('Такой пользователь уже существует');
+      setRegistrationError(t('forms.signUpForm.errors.userAlreadyExists'));
     }
   }, [isError, isSuccess]);
 
@@ -58,12 +47,12 @@ const SignUpForm = (props) => {
     >
       {props => (
         <Form onSubmit={props.handleSubmit}>
-          <Form.Label>Регистрация</Form.Label>
-          <FloatingLabel className='mb-3' label='Username'>
+          <Form.Label>{t('forms.signUpForm.title')}</Form.Label>
+          <FloatingLabel className='mb-3' label={t('forms.signUpForm.fields.username')}>
             <Form.Control
               type='text'
               name='username'
-              placeholder='Username'
+              placeholder='none'
               autoComplete='username'
               value={props.values.username}
               onChange={props.handleChange}
@@ -71,11 +60,11 @@ const SignUpForm = (props) => {
             />
             <Form.Control.Feedback type='invalid' tooltip>{props.errors.username}</Form.Control.Feedback>
           </FloatingLabel>
-          <FloatingLabel className='mb-3' label='Password'>
+          <FloatingLabel className='mb-3' label={t('forms.signUpForm.fields.password')}>
             <Form.Control
               type='password'
               name='password'
-              placeholder='Password'
+              placeholder='none'
               autoComplete='password'
               value={props.values.password}
               onChange={props.handleChange}
@@ -83,11 +72,11 @@ const SignUpForm = (props) => {
             />
             <Form.Control.Feedback type='invalid' tooltip>{props.errors.password}</Form.Control.Feedback>
           </FloatingLabel>
-          <FloatingLabel className='mb-4' label='Confirm password'>
+          <FloatingLabel className='mb-4' label={t('forms.signUpForm.fields.confirmPassword')}>
             <Form.Control
               type='password'
               name='confirmPassword'
-              placeholder='Confirm password'
+              placeholder='none'
               autoComplete='confirmPassword'
               value={props.values.confirmPassword}
               onChange={props.handleChange}
@@ -95,7 +84,7 @@ const SignUpForm = (props) => {
             />
             <Form.Control.Feedback type='invalid' tooltip>{props.errors.confirmPassword || registrationError}</Form.Control.Feedback>
           </FloatingLabel>
-          <Button type='submit' className='w-100' variant='outline-primary' >Register</Button>
+          <Button type='submit' className='w-100' variant='outline-primary'>{t('buttons.signUp')}</Button>
         </Form>
       )}
     </Formik>

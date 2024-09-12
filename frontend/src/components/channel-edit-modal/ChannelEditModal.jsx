@@ -2,6 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
+import { useTranslation } from "react-i18next";
 import { useGetChannelsQuery, useEditChannelMutation } from "../../services/api";
 
 import Modal from 'react-bootstrap/Modal';
@@ -9,16 +10,17 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const ChannelEditModal = (props) => {
+  const { t } = useTranslation();
   const { data } = useGetChannelsQuery();
   const [editChannel] = useEditChannelMutation();
   const { show, setShow, selectedChannel } = props;
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(data.map((channel) => channel.name), 'Должно быть уникальным')
-      .required('Обязательное поле')
+      .min(3, t('forms.editChannelForm.errors.channelnameLengthLimit'))
+      .max(20, t('forms.editChannelForm.errors.channelnameLengthLimit'))
+      .notOneOf(data.map((channel) => channel.name), t('forms.editChannelForm.errors.mustBeUnique'))
+      .required(t('forms.editChannelForm.errors.requiredFiled'))
   });
 
   const handleClose = () => setShow(false);
@@ -41,7 +43,7 @@ const ChannelEditModal = (props) => {
       {props => (
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Переименовать канал</Modal.Title>
+            <Modal.Title>{t('modals.editChannelModal.title')}</Modal.Title>
           </Modal.Header>
           <Form noValidate onSubmit={props.handleSubmit}>
             <Modal.Body>
@@ -57,10 +59,10 @@ const ChannelEditModal = (props) => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant='secondary' onClick={handleClose}>
-                Отменить
+                {t('buttons.cancel')}
               </Button>
               <Button variant='primary' type='submit'>
-                Отправить
+                {t('buttons.send')}
               </Button>
             </Modal.Footer>
           </Form>

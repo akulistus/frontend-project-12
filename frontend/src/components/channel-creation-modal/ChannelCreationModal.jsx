@@ -2,6 +2,7 @@ import React from "react";
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
+import { useTranslation } from "react-i18next";
 import { useGetChannelsQuery, useAddChannelMutation } from "../../services/api";
 import { useDispatch } from "react-redux";
 import { setSelected } from "../../slices/channelSlice";
@@ -11,6 +12,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 const ChannelCreationModal = (props) => {
+  const { t } = useTranslation();
   const { data } = useGetChannelsQuery();
   const [addChannel] = useAddChannelMutation();
   const { show, setShow } = props;
@@ -19,10 +21,10 @@ const ChannelCreationModal = (props) => {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .min(3, 'От 3 до 20 символов')
-      .max(20, 'От 3 до 20 символов')
-      .notOneOf(data.map((channel) => channel.name), 'Должно быть уникальным')
-      .required('Обязательное поле')
+      .min(3, t('forms.createChannelForm.errors.channelnameLengthLimit'))
+      .max(20, t('forms.createChannelForm.errors.channelnameLengthLimit'))
+      .notOneOf(data.map((channel) => channel.name), t('forms.createChannelForm.errors.mustBeUnique'))
+      .required(t('forms.createChannelForm.errors.requiredFiled'))
   });
 
   const handleClose = () => setShow(false);
@@ -42,7 +44,7 @@ const ChannelCreationModal = (props) => {
       {props => (
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Добавить канал</Modal.Title>
+            <Modal.Title>{t('modals.createChannelModal.title')}</Modal.Title>
           </Modal.Header>
           <Form noValidate onSubmit={props.handleSubmit}>
             <Modal.Body>
@@ -58,10 +60,10 @@ const ChannelCreationModal = (props) => {
             </Modal.Body>
             <Modal.Footer>
               <Button variant='secondary' onClick={handleClose}>
-                Отменить
+                {t('buttons.cancel')}
               </Button>
               <Button variant='primary' type='submit'>
-                Отправить
+                {t('buttons.send')}
               </Button>
             </Modal.Footer>
           </Form>

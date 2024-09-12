@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Formik } from 'formik';
+import { useTranslation } from "react-i18next";
 
 import { useGetMessagesQuery, usePostMessageMutation } from '../../services/api';
 
@@ -10,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
 const Chat = (props) => {
+  const { t } = useTranslation();
 	const { data, isLoading } = useGetMessagesQuery();
   const [postMessage, { isError, isSuccess }] = usePostMessageMutation();
 
@@ -18,12 +20,11 @@ const Chat = (props) => {
 
 	if (isLoading) return null;
 
-  console.log(data);
 	return (
 		<Container fluid className="d-flex flex-column h-100 px-0">
       <Container fluid className="p-3 mb-4 bg-dark-subtle shadow-sm small">
         {selectedChannel.name}
-        Кол-во сообщений
+        {t('chat.message', { count: data.length })}
       </Container>
       <Container fluid className="overflow-auto px-5">
         {renderMessages(data, selectedChannel.id)}
@@ -48,7 +49,7 @@ const Chat = (props) => {
                 <Form.Control
                   type='text'
                   name='message'
-                  placeholder='Введите сообщение...'
+                  placeholder={t('forms.messageForm.fields.enterMessage')}
                   value={props.values.message}
                   onChange={props.handleChange}
                 />
