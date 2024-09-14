@@ -60,7 +60,8 @@ const Chat = () => {
               <InputGroup>
                 <Form.Control
                   type='text'
-                  name='message'
+                  id='message'
+                  aria-label={t('forms.messageForm.labels.newMessage')}
                   ref={inputRef}
                   placeholder={t('forms.messageForm.fields.enterMessage')}
                   value={props.values.message}

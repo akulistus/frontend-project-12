@@ -33,6 +33,9 @@ export default {
         },
       },
       messageForm: {
+        labels: {
+          newMessage: 'Новое сообщение',
+        },
         fields: {
           enterMessage: 'Введите сообщение...',
         },
