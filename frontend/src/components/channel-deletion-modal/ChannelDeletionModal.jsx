@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
-import { useRemoveChannelMutation } from "../../services/api";
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import { useRemoveChannelMutation } from '../../services/api';
 
 import Modal from 'react-bootstrap/Modal';
-import Button from "react-bootstrap/Button";
+import Button from 'react-bootstrap/Button';
 
 const ChannelDeletionModal = (props) => {
   const { t } = useTranslation();
@@ -35,7 +35,7 @@ const ChannelDeletionModal = (props) => {
         <Button variant='secondary' onClick={handleClose}>
           {t('buttons.cancel')}
         </Button>
-        <Button variant="danger" onClick={handleDelete}>
+        <Button variant='danger' onClick={handleDelete}>
           {t('buttons.delete')}
         </Button>
       </Modal.Footer>

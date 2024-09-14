@@ -1,10 +1,10 @@
-import React from "react";
-import { Formik } from "formik";
+import React, { useEffect, useRef } from 'react';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { toast } from 'react-toastify';
-import { useTranslation } from "react-i18next";
-import { useGetChannelsQuery, useEditChannelMutation } from "../../services/api";
+import { useTranslation } from 'react-i18next';
+import { useGetChannelsQuery, useEditChannelMutation } from '../../services/api';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -15,6 +15,14 @@ const ChannelEditModal = (props) => {
   const { data } = useGetChannelsQuery();
   const [editChannel] = useEditChannelMutation();
   const { show, setShow, selectedChannel } = props;
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (show && inputRef.current) {
+      inputRef.current.select();
+    }
+  }, [show]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -28,7 +36,7 @@ const ChannelEditModal = (props) => {
 
   return (
     <Formik
-      initialValues={{ name: selectedChannel.name}}
+      initialValues={{ name: selectedChannel.name }}
       onSubmit={async (values) => {
         const newChannel = {
           id: selectedChannel.id,
@@ -53,15 +61,17 @@ const ChannelEditModal = (props) => {
           </Modal.Header>
           <Form noValidate onSubmit={props.handleSubmit}>
             <Modal.Body>
+              <Form.Group>
                 <Form.Control
                   type='text'
                   name='name'
+                  ref={inputRef}
                   value={props.values.name}
                   onChange={props.handleChange}
                   isInvalid={!!props.errors.name}
-                  autoFocus
                 />
-                <Form.Control.Feedback type="invalid">{props.errors.name}</Form.Control.Feedback>
+                <Form.Control.Feedback type='invalid'>{props.errors.name}</Form.Control.Feedback>
+              </Form.Group>
             </Modal.Body>
             <Modal.Footer>
               <Button variant='secondary' onClick={handleClose}>

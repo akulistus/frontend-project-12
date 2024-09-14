@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import filter from 'leo-profanity';
-import { Formik } from "formik";
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
-import { useGetChannelsQuery, useAddChannelMutation } from "../../services/api";
-import { useDispatch } from "react-redux";
-import { setSelected } from "../../slices/channelSlice";
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import { useGetChannelsQuery, useAddChannelMutation } from '../../services/api';
+import { useDispatch } from 'react-redux';
+import { setSelected } from '../../slices/channelSlice';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -38,7 +38,7 @@ const ChannelCreationModal = (props) => {
         addChannel({ name: filter.clean(values.name) })
           .then((data) => {
             if (!data.error) {
-              dispatch(setSelected(data));
+              dispatch(setSelected(data.data));
               toast.success(t('notifications.channelSuccessfullyCreated'));
             }
           });
@@ -63,7 +63,7 @@ const ChannelCreationModal = (props) => {
                   isInvalid={!!props.errors.name}
                   autoFocus
                 />
-                <Form.Control.Feedback type="invalid">{props.errors.name}</Form.Control.Feedback>
+                <Form.Control.Feedback type='invalid'>{props.errors.name}</Form.Control.Feedback>
             </Modal.Body>
             <Modal.Footer>
               <Button variant='secondary' onClick={handleClose}>

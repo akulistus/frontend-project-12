@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { setSelected, setDefault } from "../../slices/channelSlice";
-import { useGetChannelsQuery } from "../../services/api";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { useTranslation } from "react-i18next";
+import { setSelected, setDefault } from '../../slices/channelSlice';
+import { useGetChannelsQuery } from '../../services/api';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
+import { PlusLg } from 'react-bootstrap-icons';
 import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
 import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
 import ChannelEditModal from '../channel-edit-modal/ChannelEditModal';
@@ -13,7 +14,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import SplitButton  from 'react-bootstrap/SplitButton';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const ChannelList = (props) => {
   const [editedChannel, setEditedChannel] = useState(null);
@@ -50,22 +51,28 @@ const ChannelList = (props) => {
       const variant = channel.id === selectedChannel.id ? 'secondary': '';
       if (channel.removable) {
         return (
-          <Nav.Item action as='li'>
-            <SplitButton
-              key={channel.name}
-              title={channel.name}
-              variant={variant}
-              onClick={() => handleClick(index)}
-            >
-              <Dropdown.Item onClick={() => handleDelete(index)}>Удалить</Dropdown.Item>
-              <Dropdown.Item onClick={() => handelRename(index)}>Переименовать</Dropdown.Item>
-            </SplitButton>
+          <Nav.Item className='w-100' action as='li'>
+            <Dropdown className='d-flex' as={ButtonGroup}>
+              <Button
+                className='w-100 rounded-0 text-start text-truncate'
+                key={channel.name}
+                variant={variant}
+                onClick={() => handleClick(index)}
+              >
+                {`# ${channel.name}`}
+              </Button>
+              <Dropdown.Toggle split variant={variant} id='dropdown-split-basic'/>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => handleDelete(index)}>{t('buttons.delete')}</Dropdown.Item>
+                <Dropdown.Item onClick={() => handelRename(index)}>{t('buttons.rename')}</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Nav.Item>
         );
       }
       return (
-        <Nav.Item action as='li'>
-          <Button variant={variant} onClick={() => handleClick(index)}>{`# ${channel.name}`}</Button>
+        <Nav.Item className='w-100' action as='li'>
+          <Button className='w-100 rounded-0 text-start' variant={variant} onClick={() => handleClick(index)}>{`# ${channel.name}`}</Button>
         </Nav.Item>
       );
     });
@@ -73,13 +80,15 @@ const ChannelList = (props) => {
   if (isLoading) return null;
 
 	return (
-		<div className="d-flex flex-column bg-dark-subtle border-end h-100">
-			<Container className="d-flex justify-content-between p-4 mt-1 mb-2 pe-2">
+		<div className='d-flex flex-column bg-dark-subtle border-end h-100'>
+			<Container className='d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4'>
 				<b>{t('chat.channels')}</b>
-				<Button onClick={() => setShowCreateModal(true)}>add</Button>
+				<Button className='p-0 btn-group-vertical' variant='outline-primary' onClick={() => setShowCreateModal(true)}>
+          <PlusLg />
+        </Button>
 			</Container>
-			<Container className="h-100">
-        <Nav as='ul' variant="pills" className="flex-column">
+			<Container className='h-100'>
+        <Nav as='ul' variant='pills' className='flex-column'>
           {renderNavItems(data)}
         </Nav>
 			</Container>

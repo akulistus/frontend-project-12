@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../../services/api";
-import { setToken } from "../../slices/authSlice";
+import { useDispatch } from 'react-redux';
+import { useLoginMutation } from '../../services/api';
+import { setToken } from '../../slices/authSlice';
 
 import { Formik } from 'formik';
 
@@ -39,8 +39,8 @@ const LogInForm = (props) => {
           <Form.Label>{t('forms.logInForm.title')}</Form.Label>
           <FloatingLabel className='mb-3' label={t('forms.logInForm.fields.username')}>
             <Form.Control 
-              type="text" 
-              name="username" 
+              type='text' 
+              name='username' 
               placeholder='none'
               value={props.values.username}
               onChange={props.handleChange}
@@ -49,16 +49,16 @@ const LogInForm = (props) => {
           </FloatingLabel>
           <FloatingLabel className='mb-3' label={t('forms.logInForm.fields.password')}>
             <Form.Control 
-              type="password" 
-              name="password" 
+              type='password' 
+              name='password' 
               placeholder='none'
               value={props.values.password}
               onChange={props.handleChange}
               isInvalid={isError && error?.status !== 'FETCH_ERROR'}
             />
-            <Form.Control.Feedback type="invalid">{t('forms.logInForm.errors.invalidLoginAttempt')}</Form.Control.Feedback>
+            <Form.Control.Feedback type='invalid'>{t('forms.logInForm.errors.invalidLoginAttempt')}</Form.Control.Feedback>
           </FloatingLabel>
-          <Button type="submit">{t('buttons.login')}</Button>
+          <Button type='submit'>{t('buttons.login')}</Button>
         </Form>
       )}
     </Formik>

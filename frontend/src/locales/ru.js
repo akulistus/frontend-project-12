@@ -70,6 +70,7 @@ export default {
       logout: 'Выйти',
       cancel: 'Отменить',
       delete: 'Удалить',
+      rename: 'Переименовать',
       send: 'Отправить',
     },
     notifications: {
@@ -77,6 +78,12 @@ export default {
       channelSuccessfullyRenamed: 'Канал переименован',
       channelSuccessfullyCreated: 'Канал создан',
       connectionError: 'Ошибка соединения',
-    }
+    },
+    cards: {
+      logInCard: {
+        noAccount: 'Нет аккаунта?',
+        register: 'Регистрация',
+      },
+    },
   },
 };

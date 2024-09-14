@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { api } from "./api";
+import { configureStore } from '@reduxjs/toolkit';
+import { api } from './api';
 import authReducer from '../slices/authSlice';
 import channelReducer from '../slices/channelSlice';
 
