@@ -85,6 +85,7 @@ const ChannelList = (props) => {
 				<b>{t('chat.channels')}</b>
 				<Button className='p-0 btn-group-vertical text-primary' variant='' onClick={() => setShowCreateModal(true)}>
           <PlusSquare />
+          <span className='visually-hidden'>+</span>
         </Button>
 			</Container>
 			<Container className='h-100'>
