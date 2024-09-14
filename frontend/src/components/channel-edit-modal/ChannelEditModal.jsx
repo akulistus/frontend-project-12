@@ -52,6 +52,8 @@ const ChannelEditModal = (props) => {
           .then((response) => {
             if (!response.error) {
               toast.success(t('notifications.channelSuccessfullyRenamed'));
+            } else {
+              toast.error(t('notifications.connectionError'));
             }
           });
         handleClose();

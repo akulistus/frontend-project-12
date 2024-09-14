@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
 import { Formik } from 'formik';
+
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useSignUpMutation } from '../../services/api';
@@ -12,9 +14,7 @@ import { useSignUpMutation } from '../../services/api';
 const SignUpForm = () => {
   const { t } = useTranslation();
   const [registrationError, setRegistrationError] = useState(null);
-  const [singUp, {
-    isError, isSuccess, data, error, isLoading,
-  }] = useSignUpMutation();
+  const [singUp, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
@@ -31,16 +31,6 @@ const SignUpForm = () => {
       ], t('forms.signUpForm.errors.passwordDoesNotMatch')),
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      window.localStorage.setItem('token', data.token);
-      window.localStorage.setItem('username', data.username);
-      navigate('/');
-    } else if (isError && error?.status !== 'FETCH_ERROR') {
-      setRegistrationError(t('forms.signUpForm.errors.userAlreadyExists'));
-    }
-  }, [isSuccess, isError, error.status, data.token, data.username, navigate, t]);
-
   return (
     <Formik
       initialValues={{
@@ -54,7 +44,17 @@ const SignUpForm = () => {
           username: values.username,
           password: values.password,
         };
-        singUp(newUser, { extraOptions: { t } });
+        const response = await singUp(newUser);
+        const { data, error } = response;
+        if (data) {
+          window.localStorage.setItem('token', data.token);
+          window.localStorage.setItem('username', data.username);
+          navigate('/');
+        } else if (error?.status !== 'FETCH_ERROR') {
+          setRegistrationError(t('forms.signUpForm.errors.userAlreadyExists'));
+        } else if (error?.status === 'FETCH_ERROR') {
+          toast.error(t('notifications.connectionError'));
+        }
       }}
     >
       {({

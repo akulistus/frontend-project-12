@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
@@ -11,17 +12,9 @@ import { useLoginMutation } from '../../services/api';
 const LogInForm = () => {
   const { t } = useTranslation();
   const [login, {
-    isError, isSuccess, error, isLoading, data,
+    isError, error, isLoading,
   }] = useLoginMutation();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isSuccess) {
-      window.localStorage.setItem('token', data.token);
-      window.localStorage.setItem('username', data.username);
-      navigate('/');
-    }
-  }, [isLoading, isSuccess, data.token, data.username, navigate]);
 
   return (
     <Formik
@@ -30,7 +23,15 @@ const LogInForm = () => {
         password: '',
       }}
       onSubmit={async (values) => {
-        login(values, { extraOptions: { t } });
+        const response = await login(values);
+        const { data, err } = response;
+        if (data) {
+          window.localStorage.setItem('token', data.token);
+          window.localStorage.setItem('username', data.username);
+          navigate('/');
+        } else if (err?.status !== 'FETCH_ERROR') {
+          toast.error(t('notifications.connectionError'));
+        }
       }}
     >
       {({ handleSubmit, handleChange, values }) => (

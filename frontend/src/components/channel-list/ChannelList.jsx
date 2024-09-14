@@ -46,6 +46,8 @@ const ChannelList = () => {
     setEditedChannel(data[index]);
   };
 
+  if (isLoading) return null;
+
   const renderNavItems = (channels) => channels.map((channel, index) => {
     const variant = channel.id === selectedChannel.id ? 'secondary' : '';
     if (channel.removable) {

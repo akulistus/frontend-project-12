@@ -46,6 +46,8 @@ const ChannelCreationModal = (props) => {
             if (!response.error) {
               dispatch(setSelected(response.data));
               toast.success(t('notifications.channelSuccessfullyCreated'));
+            } else {
+              toast.error(t('notifications.connectionError'));
             }
           });
         handleClose();
