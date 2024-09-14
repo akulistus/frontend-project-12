@@ -11,7 +11,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+const en = filter.list();
 filter.loadDictionary('ru');
+filter.add(en);
+
 const Home = () => {
 
   return (
