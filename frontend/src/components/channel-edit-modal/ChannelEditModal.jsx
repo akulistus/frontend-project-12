@@ -4,11 +4,11 @@ import * as Yup from 'yup';
 
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { useGetChannelsQuery, useEditChannelMutation } from '../../services/api';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { useGetChannelsQuery, useEditChannelMutation } from '../../services/api';
 
 const ChannelEditModal = (props) => {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ const ChannelEditModal = (props) => {
       .min(3, t('forms.editChannelForm.errors.channelnameLengthLimit'))
       .max(20, t('forms.editChannelForm.errors.channelnameLengthLimit'))
       .notOneOf(data.map((channel) => channel.name), t('forms.editChannelForm.errors.mustBeUnique'))
-      .required(t('forms.editChannelForm.errors.requiredFiled'))
+      .required(t('forms.editChannelForm.errors.requiredFiled')),
   });
 
   const handleClose = () => setShow(false);
@@ -60,7 +60,7 @@ const ChannelEditModal = (props) => {
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {props => (
+      {(props) => (
         <Modal centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.editChannelModal.title')}</Modal.Title>
@@ -68,29 +68,29 @@ const ChannelEditModal = (props) => {
           <Form noValidate onSubmit={props.handleSubmit}>
             <Modal.Body>
               <Form.Group>
-                <Form.Label 
-                  className='visually-hidden' 
-                  htmlFor='name'
-                  >
-                    {t('forms.editChannelForm.labels.channelName')}
-                  </Form.Label>
+                <Form.Label
+                  className="visually-hidden"
+                  htmlFor="name"
+                >
+                  {t('forms.editChannelForm.labels.channelName')}
+                </Form.Label>
                 <Form.Control
-                  type='text'
-                  id='name'
+                  type="text"
+                  id="name"
                   ref={inputRef}
                   value={props.values.name}
                   onChange={props.handleChange}
                   isInvalid={!!props.errors.name}
                   onKeyDown={(e) => handleKeyDown(e, props.handleSubmit)}
                 />
-                <Form.Control.Feedback type='invalid'>{props.errors.name}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{props.errors.name}</Form.Control.Feedback>
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant='secondary' onClick={handleClose}>
+              <Button variant="secondary" onClick={handleClose}>
                 {t('buttons.cancel')}
               </Button>
-              <Button disabled={isLoading} variant='primary' type='submit'>
+              <Button disabled={isLoading} variant="primary" type="submit">
                 {t('buttons.send')}
               </Button>
             </Modal.Footer>

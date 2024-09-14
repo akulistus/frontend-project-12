@@ -51,7 +51,7 @@ export default {
           channelnameLengthLimit: 'От 3 до 20 символов',
           mustBeUnique: 'Должно быть уникальным',
           requiredFiled: 'Обязательное поле',
-        }
+        },
       },
       createChannelForm: {
         labels: {
@@ -61,8 +61,8 @@ export default {
           channelnameLengthLimit: 'От 3 до 20 символов',
           mustBeUnique: 'Должно быть уникальным',
           requiredFiled: 'Обязательное поле',
-        }
-      }
+        },
+      },
     },
     modals: {
       editChannelModal: {

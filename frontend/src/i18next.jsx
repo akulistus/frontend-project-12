@@ -1,11 +1,11 @@
 import i18n from 'i18next';
-import resources from './locales/index';
 import { initReactI18next } from 'react-i18next';
+import resources from './locales/index';
 
-i18n.
-  use(initReactI18next)
+i18n
+  .use(initReactI18next)
   .init({
-    lng:'ru',
+    lng: 'ru',
     resources,
   });
 

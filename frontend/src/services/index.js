@@ -7,7 +7,6 @@ export default configureStore({
     [api.reducerPath]: api.reducer,
     channels: channelReducer,
   },
-  middleware: (getDefaultMiddleware) => 
-    getDefaultMiddleware()
-      .concat(api.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(api.middleware),
 });

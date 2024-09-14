@@ -2,10 +2,10 @@ import React from 'react';
 
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { useRemoveChannelMutation } from '../../services/api';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { useRemoveChannelMutation } from '../../services/api';
 
 const ChannelDeletionModal = (props) => {
   const { t } = useTranslation();
@@ -32,10 +32,10 @@ const ChannelDeletionModal = (props) => {
         {t('modals.deleteChannelModal.body')}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='secondary' onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose}>
           {t('buttons.cancel')}
         </Button>
-        <Button disabled={isLoading} variant='danger' onClick={handleDelete}>
+        <Button disabled={isLoading} variant="danger" onClick={handleDelete}>
           {t('buttons.delete')}
         </Button>
       </Modal.Footer>

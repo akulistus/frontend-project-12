@@ -16,7 +16,7 @@ const LogOutButton = (props) => {
 
   return (
     <>
-      {isAuth && <Button variant='primary' onClick={handleClick}>{t('buttons.logout')}</Button>}
+      {isAuth && <Button variant="primary" onClick={handleClick}>{t('buttons.logout')}</Button>}
     </>
   );
 };

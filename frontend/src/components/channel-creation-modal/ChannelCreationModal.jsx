@@ -5,13 +5,13 @@ import * as Yup from 'yup';
 
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-import { useGetChannelsQuery, useAddChannelMutation } from '../../services/api';
 import { useDispatch } from 'react-redux';
-import { setSelected } from '../../slices/channelSlice';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { setSelected } from '../../slices/channelSlice';
+import { useGetChannelsQuery, useAddChannelMutation } from '../../services/api';
 
 const ChannelCreationModal = (props) => {
   const { t } = useTranslation();
@@ -26,7 +26,7 @@ const ChannelCreationModal = (props) => {
       .min(3, t('forms.createChannelForm.errors.channelnameLengthLimit'))
       .max(20, t('forms.createChannelForm.errors.channelnameLengthLimit'))
       .notOneOf(data.map((channel) => channel.name), t('forms.createChannelForm.errors.mustBeUnique'))
-      .required(t('forms.createChannelForm.errors.requiredFiled'))
+      .required(t('forms.createChannelForm.errors.requiredFiled')),
   });
 
   const handleClose = () => setShow(false);
@@ -39,7 +39,7 @@ const ChannelCreationModal = (props) => {
 
   return (
     <Formik
-      initialValues={{ name: ''}}
+      initialValues={{ name: '' }}
       onSubmit={async (values) => {
         addChannel({ name: filter.clean(values.name) })
           .then((data) => {
@@ -54,35 +54,35 @@ const ChannelCreationModal = (props) => {
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {props => (
+      {(props) => (
         <Modal centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.createChannelModal.title')}</Modal.Title>
           </Modal.Header>
           <Form noValidate onSubmit={props.handleSubmit}>
             <Modal.Body>
-                <Form.Label 
-                  className='visually-hidden' 
-                  htmlFor='name'
-                >
-                  {t('forms.createChannelForm.labels.channelName')}
-                </Form.Label>
-                <Form.Control
-                  type='text'
-                  id='name'
-                  value={props.values.name}
-                  onChange={props.handleChange}
-                  isInvalid={!!props.errors.name}
-                  onKeyDown={(e) => handleKeyDown(e, props.handleSubmit)}
-                  autoFocus
-                />
-                <Form.Control.Feedback type='invalid'>{props.errors.name}</Form.Control.Feedback>
+              <Form.Label
+                className="visually-hidden"
+                htmlFor="name"
+              >
+                {t('forms.createChannelForm.labels.channelName')}
+              </Form.Label>
+              <Form.Control
+                type="text"
+                id="name"
+                value={props.values.name}
+                onChange={props.handleChange}
+                isInvalid={!!props.errors.name}
+                onKeyDown={(e) => handleKeyDown(e, props.handleSubmit)}
+                autoFocus
+              />
+              <Form.Control.Feedback type="invalid">{props.errors.name}</Form.Control.Feedback>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant='secondary' onClick={handleClose}>
+              <Button variant="secondary" onClick={handleClose}>
                 {t('buttons.cancel')}
               </Button>
-              <Button disabled={isLoading} variant='primary' type='submit'>
+              <Button disabled={isLoading} variant="primary" type="submit">
                 {t('buttons.send')}
               </Button>
             </Modal.Footer>
