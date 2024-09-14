@@ -30,7 +30,7 @@ const LogInForm = () => {
         password: '',
       }}
       onSubmit={async (values) => {
-        login(values);
+        login(values, { extraOptions: { t } });
       }}
     >
       {({ handleSubmit, handleChange, values }) => (

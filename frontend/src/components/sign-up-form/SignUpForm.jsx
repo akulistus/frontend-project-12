@@ -54,7 +54,7 @@ const SignUpForm = () => {
           username: values.username,
           password: values.password,
         };
-        singUp(newUser);
+        singUp(newUser, { extraOptions: { t } });
       }}
     >
       {({

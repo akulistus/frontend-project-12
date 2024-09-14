@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { io } from 'socket.io-client';
 import { toast } from 'react-toastify';
 import { setDefault } from '../slices/channelSlice';
-import i18n from '../i18next';
 
 const socket = io();
 
@@ -19,9 +18,11 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithErrorHandling = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions);
-  if (result.error) {
+  const { t } = extraOptions;
+
+  if (result.error && t) {
     if (result.error.status === 'FETCH_ERROR') {
-      toast.error(i18n.t('notifications.connectionError'));
+      toast.error(t('notifications.connectionError'));
     }
   }
   return result;
@@ -64,9 +65,8 @@ export const api = createApi({
           dispatch(setDefault());
         });
 
-        socket.on('renameChannel', (event) => {
-          updateCachedData((draft) => 
-            draft.map((channel) => (channel.id === event.id ? event : channel)));
+        socket.on('renameChannel', (e) => {
+          updateCachedData((draft) => draft.map((c) => (c.id === e.id ? e : c)));
         });
       },
     }),
