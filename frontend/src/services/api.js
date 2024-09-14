@@ -56,9 +56,7 @@ export const api = createApi({
         await cacheDataLoaded;
 
         socket.on('newChannel', (event) => {
-          updateCachedData((draft) => {
-            draft.push(event);
-          });
+          updateCachedData((draft) => [...draft, event]);
         });
 
         socket.on('removeChannel', (event) => {
@@ -67,10 +65,8 @@ export const api = createApi({
         });
 
         socket.on('renameChannel', (event) => {
-          updateCachedData((draft) => {
-            const index = draft.findIndex((channel) => channel.id === event.id);
-            draft[index] = event;
-          });
+          updateCachedData((draft) => 
+            draft.map((channel) => (channel.id === event.id ? event : channel)));
         });
       },
     }),

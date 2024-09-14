@@ -4,12 +4,21 @@ import { Provider as ProviderRollback, ErrorBoundary } from '@rollbar/react';
 
 import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import i18next from './i18next';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import resources from './locales/index';
 import store from './services/index';
 import router from './routes/router';
 
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+i18n
+  .use(initReactI18next)
+  .init({
+    lng: 'ru',
+    resources,
+  });
 
 const rollbarConfig = {
   accessToken: '513cf3ff61864d08a5b5f6f8f36da12b',

@@ -21,7 +21,7 @@ const LogInForm = () => {
       window.localStorage.setItem('username', data.username);
       navigate('/');
     }
-  }, [isLoading]);
+  }, [isLoading, isSuccess, data.token, data.username, navigate]);
 
   return (
     <Formik

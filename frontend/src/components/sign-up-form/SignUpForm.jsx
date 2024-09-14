@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import validationSchema from '../../validation/signUpFormValitation';
 import { useSignUpMutation } from '../../services/api';
 
 const SignUpForm = () => {
@@ -17,6 +17,20 @@ const SignUpForm = () => {
   }] = useSignUpMutation();
   const navigate = useNavigate();
 
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, t('forms.signUpForm.errors.usernameLengthLimit'))
+      .max(20, t('forms.signUpForm.errors.usernameLengthLimit'))
+      .required(t('forms.signUpForm.errors.requiredFiled')),
+    password: Yup.string()
+      .min(6, t('forms.signUpForm.errors.passwordLengthLimit'))
+      .required(t('forms.signUpForm.errors.requiredFiled')),
+    confirmPassword: Yup.string()
+      .oneOf([
+        Yup.ref('password'),
+      ], t('forms.signUpForm.errors.passwordDoesNotMatch')),
+  });
+
   useEffect(() => {
     if (isSuccess) {
       window.localStorage.setItem('token', data.token);
@@ -25,7 +39,7 @@ const SignUpForm = () => {
     } else if (isError && error?.status !== 'FETCH_ERROR') {
       setRegistrationError(t('forms.signUpForm.errors.userAlreadyExists'));
     }
-  }, [isError, isSuccess]);
+  }, [isSuccess, isError, error.status, data.token, data.username, navigate, t]);
 
   return (
     <Formik
