@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/Button';
 const ChannelEditModal = (props) => {
   const { t } = useTranslation();
   const { data } = useGetChannelsQuery();
-  const [editChannel] = useEditChannelMutation();
+  const [editChannel, { isLoading }] = useEditChannelMutation();
   const { show, setShow, selectedChannel } = props;
 
   const inputRef = useRef(null);
@@ -33,6 +33,12 @@ const ChannelEditModal = (props) => {
   });
 
   const handleClose = () => setShow(false);
+  const handleKeyDown = (event, handleSubmit) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
 
   return (
     <Formik
@@ -55,20 +61,27 @@ const ChannelEditModal = (props) => {
       validateOnChange={false}
     >
       {props => (
-        <Modal show={show} onHide={handleClose}>
+        <Modal centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.editChannelModal.title')}</Modal.Title>
           </Modal.Header>
           <Form noValidate onSubmit={props.handleSubmit}>
             <Modal.Body>
               <Form.Group>
+                <Form.Label 
+                  className='visually-hidden' 
+                  htmlFor='name'
+                  >
+                    {t('forms.editChannelForm.labels.channelName')}
+                  </Form.Label>
                 <Form.Control
                   type='text'
-                  name='name'
+                  id='name'
                   ref={inputRef}
                   value={props.values.name}
                   onChange={props.handleChange}
                   isInvalid={!!props.errors.name}
+                  onKeyDown={(e) => handleKeyDown(e, props.handleSubmit)}
                 />
                 <Form.Control.Feedback type='invalid'>{props.errors.name}</Form.Control.Feedback>
               </Form.Group>
@@ -77,7 +90,7 @@ const ChannelEditModal = (props) => {
               <Button variant='secondary' onClick={handleClose}>
                 {t('buttons.cancel')}
               </Button>
-              <Button variant='primary' type='submit'>
+              <Button disabled={isLoading} variant='primary' type='submit'>
                 {t('buttons.send')}
               </Button>
             </Modal.Footer>

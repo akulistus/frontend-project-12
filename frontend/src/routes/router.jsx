@@ -5,8 +5,6 @@ import ErrorPage from '../pages/error-page/ErrorPage';
 import SignUpPage from '../pages/signup-page/SignUpPage';
 
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import store from '../services/index';
-import { selectToken } from '../slices/authSlice';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +16,7 @@ const router = createBrowserRouter([
         index: true,
         element:<ChatPage />,
         loader: async () => {
-          const token = selectToken(store.getState());
+          const token = window.localStorage.getItem('token');
           if (!token) {
             return redirect('login'); 
           };

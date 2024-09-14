@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 const ChannelDeletionModal = (props) => {
   const { t } = useTranslation();
   const { show, setShow, selectedChannel } = props;
-  const [removeChannel] = useRemoveChannelMutation();
+  const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
   const handleClose = () => setShow(false);
   const handleDelete = () => {
@@ -24,7 +24,7 @@ const ChannelDeletionModal = (props) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal centered show={show} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.deleteChannelModal.title')}</Modal.Title>
       </Modal.Header>
@@ -35,7 +35,7 @@ const ChannelDeletionModal = (props) => {
         <Button variant='secondary' onClick={handleClose}>
           {t('buttons.cancel')}
         </Button>
-        <Button variant='danger' onClick={handleDelete}>
+        <Button disabled={isLoading} variant='danger' onClick={handleDelete}>
           {t('buttons.delete')}
         </Button>
       </Modal.Footer>

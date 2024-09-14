@@ -38,6 +38,9 @@ export default {
         },
       },
       editChannelForm: {
+        labels: {
+          channelName: 'Имя канала',
+        },
         errors: {
           channelnameLengthLimit: 'От 3 до 20 символов',
           mustBeUnique: 'Должно быть уникальным',
@@ -45,6 +48,9 @@ export default {
         }
       },
       createChannelForm: {
+        labels: {
+          channelName: 'Имя канала',
+        },
         errors: {
           channelnameLengthLimit: 'От 3 до 20 символов',
           mustBeUnique: 'Должно быть уникальным',

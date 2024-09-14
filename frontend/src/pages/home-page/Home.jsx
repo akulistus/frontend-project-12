@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import filter from 'leo-profanity';
 
+import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import LogOutButton from '../../components/log-out-button/LogOutButton';
 import Container from 'react-bootstrap/esm/Container';
@@ -17,7 +18,9 @@ const Home = () => {
     <div className='h-100 d-flex flex-column'>
       <Navbar bg='dark' data-bs-theme="dark" sticky='top'>
         <Container>
-          <Navbar.Brand href='/'>Hexlet Chat</Navbar.Brand>
+          <Navbar.Brand>
+            <Link to={'/'} style={{ textDecoration: 'none' }}>Hexlet Chat</Link>
+          </Navbar.Brand>
           <LogOutButton />
         </Container>
       </Navbar>

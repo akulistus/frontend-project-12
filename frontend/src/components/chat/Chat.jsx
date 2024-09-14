@@ -18,7 +18,7 @@ const Chat = () => {
   const [postMessage] = usePostMessageMutation();
 
   const selectedChannel = useSelector((state) => state.channels.selected);
-  const username = useSelector((state) => state.auth.username);
+  const username = window.localStorage.getItem('username');
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -66,7 +66,11 @@ const Chat = () => {
                   value={props.values.message}
                   onChange={props.handleChange}
                 />
-                <Button className='btn-group-vertical' disabled={!props.values.message} type='submit'>
+                <Button 
+                  className='btn-group-vertical' 
+                  variant='' 
+                  disabled={!props.values.message} type='submit'
+                >
                   <ArrowRightSquare />
                 </Button>
               </InputGroup>

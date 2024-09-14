@@ -8,8 +8,8 @@ const socket = io();
 
 const baseQuery = fetchBaseQuery({
   baseUrl: '/api/v1',
-  prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.token;
+  prepareHeaders: (headers) => {
+    const token = window.localStorage.getItem('token');
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }

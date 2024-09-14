@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { PlusLg } from 'react-bootstrap-icons';
+import { PlusSquare } from 'react-bootstrap-icons';
 import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
 import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
 import ChannelEditModal from '../channel-edit-modal/ChannelEditModal';
@@ -83,8 +83,8 @@ const ChannelList = (props) => {
 		<div className='d-flex flex-column bg-dark-subtle border-end h-100'>
 			<Container className='d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4'>
 				<b>{t('chat.channels')}</b>
-				<Button className='p-0 btn-group-vertical' variant='outline-primary' onClick={() => setShowCreateModal(true)}>
-          <PlusLg />
+				<Button className='p-0 btn-group-vertical text-primary' variant='' onClick={() => setShowCreateModal(true)}>
+          <PlusSquare />
         </Button>
 			</Container>
 			<Container className='h-100'>
