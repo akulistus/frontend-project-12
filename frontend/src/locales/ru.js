@@ -5,6 +5,9 @@ export default {
       message_one: '{{count}} сообщение',
       message_few: '{{count}} сообщения',
       message_many: '{{count}} сообщений',
+      labels: {
+        channelControl: 'Управление каналом',
+      },
     },
     forms: {
       logInForm: {

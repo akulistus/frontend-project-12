@@ -61,7 +61,9 @@ const ChannelList = (props) => {
               >
                 {`# ${channel.name}`}
               </Button>
-              <Dropdown.Toggle split variant={variant} id='dropdown-split-basic'/>
+              <Dropdown.Toggle split variant={variant} id='dropdown-split-basic'>
+                <span className='visually-hidden'>{t('chat.labels.channelControl')}</span>
+              </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={() => handleDelete(index)}>{t('buttons.delete')}</Dropdown.Item>
                 <Dropdown.Item onClick={() => handelRename(index)}>{t('buttons.rename')}</Dropdown.Item>
