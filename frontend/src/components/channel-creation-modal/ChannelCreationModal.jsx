@@ -54,7 +54,9 @@ const ChannelCreationModal = (props) => {
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {({ handleSubmit, handleChange, values, errors }) => (
+      {({
+        handleSubmit, handleChange, values, errors,
+      }) => (
         <Modal centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.createChannelModal.title')}</Modal.Title>

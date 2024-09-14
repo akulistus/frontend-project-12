@@ -18,7 +18,7 @@ const Login = () => {
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <div className="col-md-6 d-flex align-items-center justify-content-center">
-                <img className="rounded-circle" src={image} />
+                <img className="rounded-circle" src={image} alt={t('images.logInImage')} />
               </div>
               <LogInForm />
             </Card.Body>

@@ -13,7 +13,7 @@ import { useGetMessagesQuery, usePostMessageMutation } from '../../services/api'
 
 const renderMessages = (messages, channelId) => messages
   .filter((message) => message.channelId === channelId)
-  .map((message, index) => (
+  .map((message) => (
     <div key={message.id} className="text-break md-2">
       <b>{message.username}</b>
       {' '}

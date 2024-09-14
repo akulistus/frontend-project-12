@@ -95,31 +95,34 @@ const ChannelList = () => {
         </Nav>
       </Container>
       {
-        showCreateModal 
-        && 
-        <ChannelCreationModal 
-          show={showCreateModal} 
-          setShow={setShowCreateModal} 
+        showCreateModal
+        && (
+        <ChannelCreationModal
+          show={showCreateModal}
+          setShow={setShowCreateModal}
         />
-      }
+        )
+}
       {
-        showDeleteModal 
-        && 
-        <ChannelDeletionModal 
-          show={showDeleteModal} 
-          setShow={setShowDeleteModal} 
-          selectedChannel={editedChannel} 
+        showDeleteModal
+        && (
+        <ChannelDeletionModal
+          show={showDeleteModal}
+          setShow={setShowDeleteModal}
+          selectedChannel={editedChannel}
         />
-      }
+        )
+}
       {
-        showEditModal 
-        && 
-        <ChannelEditModal 
-          show={showEditModal} 
-          setShow={setShowEditModal} 
-          selectedChannel={editedChannel} 
+        showEditModal
+        && (
+        <ChannelEditModal
+          show={showEditModal}
+          setShow={setShowEditModal}
+          selectedChannel={editedChannel}
         />
-      }
+        )
+}
     </div>
   );
 };

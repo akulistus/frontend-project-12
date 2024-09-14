@@ -1,6 +1,6 @@
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import Home from '../pages/home-page/Home';
-import Login from '../pages/login-page/Login';
+import HomePage from '../pages/home-page/HomePage';
+import LoginPage from '../pages/login-page/LoginPage';
 import ChatPage from '../pages/chat-page/ChatPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import SignUpPage from '../pages/signup-page/SignUpPage';
@@ -8,7 +8,7 @@ import SignUpPage from '../pages/signup-page/SignUpPage';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <HomePage />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <Login />,
+        element: <LoginPage />,
       },
       {
         path: 'signup',

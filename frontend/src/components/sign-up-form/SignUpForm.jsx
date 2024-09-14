@@ -43,7 +43,9 @@ const SignUpForm = () => {
         singUp(newUser);
       }}
     >
-      {({ handleSubmit, handleChange, values, errors }) => (
+      {({
+        handleSubmit, handleChange, values, errors,
+      }) => (
         <Form className="w-50" onSubmit={handleSubmit}>
           <Form.Label className="w-100 h1 text-center">{t('forms.signUpForm.title')}</Form.Label>
           <Form.Floating className="mb-3">

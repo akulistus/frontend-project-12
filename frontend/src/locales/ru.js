@@ -97,5 +97,9 @@ export default {
         register: 'Регистрация',
       },
     },
+    images: {
+      logInImage: 'Войти',
+      registerImage: 'Регистрация',
+    },
   },
 };
