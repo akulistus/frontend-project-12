@@ -42,9 +42,9 @@ const ChannelCreationModal = (props) => {
       initialValues={{ name: '' }}
       onSubmit={async (values) => {
         addChannel({ name: filter.clean(values.name) })
-          .then((data) => {
-            if (!data.error) {
-              dispatch(setSelected(data.data));
+          .then((response) => {
+            if (!response.error) {
+              dispatch(setSelected(response.data));
               toast.success(t('notifications.channelSuccessfullyCreated'));
             }
           });
@@ -54,12 +54,12 @@ const ChannelCreationModal = (props) => {
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {(props) => (
+      {({ handleSubmit, handleChange, values, errors }) => (
         <Modal centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.createChannelModal.title')}</Modal.Title>
           </Modal.Header>
-          <Form noValidate onSubmit={props.handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Label
                 className="visually-hidden"
@@ -70,13 +70,13 @@ const ChannelCreationModal = (props) => {
               <Form.Control
                 type="text"
                 id="name"
-                value={props.values.name}
-                onChange={props.handleChange}
-                isInvalid={!!props.errors.name}
-                onKeyDown={(e) => handleKeyDown(e, props.handleSubmit)}
+                value={values.name}
+                onChange={handleChange}
+                isInvalid={!!errors.name}
+                onKeyDown={(e) => handleKeyDown(e, handleSubmit)}
                 autoFocus
               />
-              <Form.Control.Feedback type="invalid">{props.errors.name}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>

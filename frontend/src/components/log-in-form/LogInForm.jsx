@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useLoginMutation } from '../../services/api';
 
-const LogInForm = (props) => {
+const LogInForm = () => {
   const { t } = useTranslation();
   const [login, {
     isError, isSuccess, error, isLoading, data,
@@ -33,16 +33,16 @@ const LogInForm = (props) => {
         login(values);
       }}
     >
-      {(props) => (
-        <Form className="col-12 col-md-6 mt-3 mt-md-0" noValidate onSubmit={props.handleSubmit}>
+      {({ handleSubmit, handleChange, values }) => (
+        <Form className="col-12 col-md-6 mt-3 mt-md-0" noValidate onSubmit={handleSubmit}>
           <Form.Label className="text-center mb-4 h1 w-100">{t('forms.logInForm.title')}</Form.Label>
           <Form.Floating className="mb-3">
             <Form.Control
               type="text"
               id="username"
               placeholder="none"
-              value={props.values.username}
-              onChange={props.handleChange}
+              value={values.username}
+              onChange={handleChange}
               isInvalid={isError}
             />
             <label htmlFor="username">{t('forms.logInForm.fields.username')}</label>
@@ -52,8 +52,8 @@ const LogInForm = (props) => {
               type="password"
               id="password"
               placeholder="none"
-              value={props.values.password}
-              onChange={props.handleChange}
+              value={values.password}
+              onChange={handleChange}
               isInvalid={isError && error?.status !== 'FETCH_ERROR'}
             />
             <Form.Control.Feedback type="invalid">{t('forms.logInForm.errors.invalidLoginAttempt')}</Form.Control.Feedback>

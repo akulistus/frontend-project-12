@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Chat from '../../components/chat/Chat';
 import ChannelList from '../../components/channel-list/ChannelList';
 
-const ChatPage = (props) => (
+const ChatPage = () => (
   <Container className="h-100 shadow rounded overflow-hidden my-4">
     <Row className="h-100">
       <Col md={2} className="px-0">

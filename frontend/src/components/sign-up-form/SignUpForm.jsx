@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 import validationSchema from '../../validation/signUpFormValitation';
 import { useSignUpMutation } from '../../services/api';
 
-const SignUpForm = (props) => {
+const SignUpForm = () => {
   const { t } = useTranslation();
   const [registrationError, setRegistrationError] = useState(null);
   const [singUp, {
@@ -43,8 +43,8 @@ const SignUpForm = (props) => {
         singUp(newUser);
       }}
     >
-      {(props) => (
-        <Form className="w-50" onSubmit={props.handleSubmit}>
+      {({ handleSubmit, handleChange, values, errors }) => (
+        <Form className="w-50" onSubmit={handleSubmit}>
           <Form.Label className="w-100 h1 text-center">{t('forms.signUpForm.title')}</Form.Label>
           <Form.Floating className="mb-3">
             <Form.Control
@@ -52,11 +52,11 @@ const SignUpForm = (props) => {
               id="username"
               placeholder="none"
               autoComplete="username"
-              value={props.values.username}
-              onChange={props.handleChange}
-              isInvalid={!!props.errors.username}
+              value={values.username}
+              onChange={handleChange}
+              isInvalid={!!errors.username}
             />
-            <Form.Control.Feedback type="invalid" tooltip>{props.errors.username}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid" tooltip>{errors.username}</Form.Control.Feedback>
             <label htmlFor="username">{t('forms.signUpForm.fields.username')}</label>
           </Form.Floating>
           <Form.Floating className="mb-3">
@@ -65,11 +65,11 @@ const SignUpForm = (props) => {
               id="password"
               placeholder="none"
               autoComplete="password"
-              value={props.values.password}
-              onChange={props.handleChange}
-              isInvalid={!!props.errors.password}
+              value={values.password}
+              onChange={handleChange}
+              isInvalid={!!errors.password}
             />
-            <Form.Control.Feedback type="invalid" tooltip>{props.errors.password}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid" tooltip>{errors.password}</Form.Control.Feedback>
             <label htmlFor="password">{t('forms.signUpForm.fields.password')}</label>
           </Form.Floating>
           <Form.Floating className="mb-4">
@@ -78,11 +78,11 @@ const SignUpForm = (props) => {
               id="confirmPassword"
               placeholder="none"
               autoComplete="confirmPassword"
-              value={props.values.confirmPassword}
-              onChange={props.handleChange}
-              isInvalid={!!props.errors.confirmPassword || registrationError}
+              value={values.confirmPassword}
+              onChange={handleChange}
+              isInvalid={!!errors.confirmPassword || registrationError}
             />
-            <Form.Control.Feedback type="invalid" tooltip>{props.errors.confirmPassword || registrationError}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid" tooltip>{errors.confirmPassword || registrationError}</Form.Control.Feedback>
             <label htmlFor="confirmPassword">{t('forms.signUpForm.fields.confirmPassword')}</label>
           </Form.Floating>
           <Button disabled={isLoading} type="submit" className="w-100" variant="outline-primary">{t('buttons.signUp')}</Button>

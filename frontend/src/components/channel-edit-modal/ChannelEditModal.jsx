@@ -49,8 +49,8 @@ const ChannelEditModal = (props) => {
           body: values,
         };
         editChannel(newChannel)
-          .then((data) => {
-            if (!data.error) {
+          .then((response) => {
+            if (!response.error) {
               toast.success(t('notifications.channelSuccessfullyRenamed'));
             }
           });
@@ -60,12 +60,12 @@ const ChannelEditModal = (props) => {
       validateOnBlur={false}
       validateOnChange={false}
     >
-      {(props) => (
+      {({ handleSubmit, handleChange, values, errors }) => (
         <Modal centered show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.editChannelModal.title')}</Modal.Title>
           </Modal.Header>
-          <Form noValidate onSubmit={props.handleSubmit}>
+          <Form noValidate onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Group>
                 <Form.Label
@@ -78,12 +78,12 @@ const ChannelEditModal = (props) => {
                   type="text"
                   id="name"
                   ref={inputRef}
-                  value={props.values.name}
-                  onChange={props.handleChange}
-                  isInvalid={!!props.errors.name}
-                  onKeyDown={(e) => handleKeyDown(e, props.handleSubmit)}
+                  value={values.name}
+                  onChange={handleChange}
+                  isInvalid={!!errors.name}
+                  onKeyDown={(e) => handleKeyDown(e, handleSubmit)}
                 />
-                <Form.Control.Feedback type="invalid">{props.errors.name}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>

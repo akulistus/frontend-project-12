@@ -16,7 +16,7 @@ import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal
 import { useGetChannelsQuery } from '../../services/api';
 import { setSelected, setDefault } from '../../slices/channelSlice';
 
-const ChannelList = (props) => {
+const ChannelList = () => {
   const [editedChannel, setEditedChannel] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -29,7 +29,7 @@ const ChannelList = (props) => {
 
   useEffect(() => {
     dispatch(setDefault());
-  }, []);
+  }, [dispatch]);
 
   const handleClick = (index) => {
     const selected = data[index];
@@ -46,11 +46,11 @@ const ChannelList = (props) => {
     setEditedChannel(data[index]);
   };
 
-  const renderNavItems = (data) => data.map((channel, index) => {
+  const renderNavItems = (channels) => channels.map((channel, index) => {
     const variant = channel.id === selectedChannel.id ? 'secondary' : '';
     if (channel.removable) {
       return (
-        <Nav.Item className="w-100" action as="li">
+        <Nav.Item key={channel.id} className="w-100" action as="li">
           <Dropdown className="d-flex" as={ButtonGroup}>
             <Button
               className="w-100 rounded-0 text-start text-truncate"
@@ -72,7 +72,7 @@ const ChannelList = (props) => {
       );
     }
     return (
-      <Nav.Item className="w-100" action as="li">
+      <Nav.Item key={channel.id} className="w-100" action as="li">
         <Button className="w-100 rounded-0 text-start" variant={variant} onClick={() => handleClick(index)}>{`# ${channel.name}`}</Button>
       </Nav.Item>
     );
@@ -94,9 +94,32 @@ const ChannelList = (props) => {
           {renderNavItems(data)}
         </Nav>
       </Container>
-      {showCreateModal && <ChannelCreationModal show={showCreateModal} setShow={setShowCreateModal} />}
-      {showDeleteModal && <ChannelDeletionModal show={showDeleteModal} setShow={setShowDeleteModal} selectedChannel={editedChannel} />}
-      {showEditModal && <ChannelEditModal show={showEditModal} setShow={setShowEditModal} selectedChannel={editedChannel} />}
+      {
+        showCreateModal 
+        && 
+        <ChannelCreationModal 
+          show={showCreateModal} 
+          setShow={setShowCreateModal} 
+        />
+      }
+      {
+        showDeleteModal 
+        && 
+        <ChannelDeletionModal 
+          show={showDeleteModal} 
+          setShow={setShowDeleteModal} 
+          selectedChannel={editedChannel} 
+        />
+      }
+      {
+        showEditModal 
+        && 
+        <ChannelEditModal 
+          show={showEditModal} 
+          setShow={setShowEditModal} 
+          selectedChannel={editedChannel} 
+        />
+      }
     </div>
   );
 };

@@ -11,6 +11,16 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { useGetMessagesQuery, usePostMessageMutation } from '../../services/api';
 
+const renderMessages = (messages, channelId) => messages
+  .filter((message) => message.channelId === channelId)
+  .map((message, index) => (
+    <div key={message.id} className="text-break md-2">
+      <b>{message.username}</b>
+      {' '}
+      {message.body}
+    </div>
+  ));
+
 const Chat = () => {
   const { t } = useTranslation();
   const { data, isLoading } = useGetMessagesQuery();
@@ -82,15 +92,5 @@ const Chat = () => {
     </Container>
   );
 };
-
-const renderMessages = (messages, channelId) => messages
-  .filter((message) => message.channelId === channelId)
-  .map((message, index) => (
-    <div key={index} className="text-break md-2">
-      <b>{message.username}</b>
-      {' '}
-      {message.body}
-    </div>
-  ));
 
 export default Chat;

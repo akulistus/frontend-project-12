@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Button from 'react-bootstrap/Button';
 
-const LogOutButton = (props) => {
+const LogOutButton = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const isAuth = window.localStorage.getItem('username');
@@ -15,9 +15,11 @@ const LogOutButton = (props) => {
   };
 
   return (
-    <>
-      {isAuth && <Button variant="primary" onClick={handleClick}>{t('buttons.logout')}</Button>}
-    </>
+    isAuth && (
+      <Button variant="primary" onClick={handleClick}>
+        {t('buttons.logout')}
+      </Button>
+    )
   );
 };
 

@@ -50,7 +50,7 @@ export const api = createApi({
       async onCacheEntryAdded(
         arg,
         {
-          updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch,
+          updateCachedData, cacheDataLoaded, dispatch,
         },
       ) {
         await cacheDataLoaded;
@@ -98,7 +98,7 @@ export const api = createApi({
       query: () => 'messages',
       async onCacheEntryAdded(
         arg,
-        { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
+        { updateCachedData, cacheDataLoaded },
       ) {
         await cacheDataLoaded;
 

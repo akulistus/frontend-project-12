@@ -7,14 +7,14 @@ import Col from 'react-bootstrap/Col';
 import SignUpForm from '../../components/sign-up-form/SignUpForm';
 import image from '../../assets/signInImage.jpg';
 
-const SignUpPage = (props) => (
+const SignUpPage = () => (
   <Container fluid className="h-100">
     <Row className="justify-content-center align-content-center h-100">
       <Col className="col-12" md={8} xxl={6}>
         <Card className="shadow-sm">
           <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
             <div>
-              <img src={image} className="rounded-circle" />
+              <img src={image} className="rounded-circle" alt=''/>
             </div>
             <SignUpForm />
           </Card.Body>
