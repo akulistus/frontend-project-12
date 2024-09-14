@@ -14,7 +14,7 @@ export default {
           password: 'Пароль',
         },
         errors: {
-          invalidLoginAttempt: 'Неправильный логин или пароль',
+          invalidLoginAttempt: 'Неверные имя пользователя или пароль',
         },
       },
       signUpForm: {
