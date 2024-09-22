@@ -2,17 +2,20 @@ import React from 'react';
 
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { closeModal } from '../../slices/modalSlice';
 import { useRemoveChannelMutation } from '../../services/channelApi';
 
-const ChannelDeletionModal = (props) => {
+const ChannelDeletionModal = () => {
   const { t } = useTranslation();
-  const { show, setShow, selectedChannel } = props;
+  const dispatch = useDispatch();
+  const selectedChannel = useSelector((state) => state.modals.selectedChannel);
   const [removeChannel, { isLoading }] = useRemoveChannelMutation();
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => dispatch(closeModal());
   const handleDelete = () => {
     removeChannel(selectedChannel.id)
       .then((response) => {
@@ -26,7 +29,7 @@ const ChannelDeletionModal = (props) => {
   };
 
   return (
-    <Modal centered show={show} onHide={handleClose}>
+    <Modal centered show onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.deleteChannelModal.title')}</Modal.Title>
       </Modal.Header>

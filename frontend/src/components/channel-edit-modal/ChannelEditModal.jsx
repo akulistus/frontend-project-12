@@ -4,25 +4,28 @@ import * as Yup from 'yup';
 
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { closeModal } from '../../slices/modalSlice';
 import { useGetChannelsQuery, useEditChannelMutation } from '../../services/channelApi';
 
-const ChannelEditModal = (props) => {
+const ChannelEditModal = () => {
+  const dispatch = useDispatch();
+  const selectedChannel = useSelector((state) => state.modals.selectedChannel);
   const { t } = useTranslation();
   const { data } = useGetChannelsQuery();
   const [editChannel, { isLoading }] = useEditChannelMutation();
-  const { show, setShow, selectedChannel } = props;
 
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (show && inputRef.current) {
+    if (inputRef.current) {
       inputRef.current.select();
     }
-  }, [show]);
+  }, []);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -32,7 +35,7 @@ const ChannelEditModal = (props) => {
       .required(t('forms.editChannelForm.errors.requiredFiled')),
   });
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => dispatch(closeModal());
   const handleKeyDown = (event, handleSubmit) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -65,7 +68,7 @@ const ChannelEditModal = (props) => {
       {({
         handleSubmit, handleChange, values, errors,
       }) => (
-        <Modal centered show={show} onHide={handleClose}>
+        <Modal centered show onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.editChannelModal.title')}</Modal.Title>
           </Modal.Header>

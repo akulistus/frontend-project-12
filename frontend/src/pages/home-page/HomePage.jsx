@@ -6,7 +6,7 @@ import Container from 'react-bootstrap/esm/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import LogOutButton from '../../components/log-out-button/LogOutButton';
 
-import './App.css';
+import './app.css';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => (

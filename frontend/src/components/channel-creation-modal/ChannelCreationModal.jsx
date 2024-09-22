@@ -6,18 +6,17 @@ import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { setSelected } from '../../slices/channelSlice';
 import { useGetChannelsQuery, useAddChannelMutation } from '../../services/channelApi';
+import { closeModal } from '../../slices/modalSlice';
 
-const ChannelCreationModal = (props) => {
+const ChannelCreationModal = () => {
   const { t } = useTranslation();
   const { data } = useGetChannelsQuery();
   const [addChannel, { isLoading }] = useAddChannelMutation();
-  const { show, setShow } = props;
 
   const dispatch = useDispatch();
 
@@ -29,7 +28,7 @@ const ChannelCreationModal = (props) => {
       .required(t('forms.createChannelForm.errors.requiredFiled')),
   });
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => dispatch(closeModal());
   const handleKeyDown = (event, handleSubmit) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -59,7 +58,7 @@ const ChannelCreationModal = (props) => {
       {({
         handleSubmit, handleChange, values, errors,
       }) => (
-        <Modal centered show={show} onHide={handleClose}>
+        <Modal centered show onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('modals.createChannelModal.title')}</Modal.Title>
           </Modal.Header>

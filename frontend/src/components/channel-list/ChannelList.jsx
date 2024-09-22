@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -10,40 +10,54 @@ import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ChannelEditModal from '../channel-edit-modal/ChannelEditModal';
-import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
-import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
 import { useGetChannelsQuery } from '../../services/channelApi';
-import { setSelected, setDefault } from '../../slices/channelSlice';
+import { setSelected } from '../../slices/channelSlice';
+import { setModal } from '../../slices/modalSlice';
+import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
+import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
+import ChannelEditModal from '../channel-edit-modal/ChannelEditModal';
+
+const modalTypes = {
+  CREATE: 'create',
+  DELETE: 'delete',
+  EDIT: 'edit',
+};
+
+const modals = {
+  [modalTypes.CREATE]: ChannelCreationModal,
+  [modalTypes.DELETE]: ChannelDeletionModal,
+  [modalTypes.EDIT]: ChannelEditModal,
+};
 
 const ChannelList = () => {
-  const [editedChannel, setEditedChannel] = useState(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-
   const selectedChannel = useSelector((state) => state.channels.selected);
+  const modal = useSelector((state) => state.modals.modal);
   const { t } = useTranslation();
   const { data, isLoading } = useGetChannelsQuery();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setDefault());
-  }, [dispatch]);
 
   const handleClick = (index) => {
     const selected = data[index];
     dispatch(setSelected(selected));
   };
 
+  const handleCreate = () => {
+    dispatch(setModal({ modal: modalTypes.CREATE }));
+  };
+
   const handleDelete = (index) => {
-    setShowDeleteModal(true);
-    setEditedChannel(data[index]);
+    dispatch(setModal({ modal: modalTypes.DELETE, selectedChannel: data[index] }));
   };
 
   const handelRename = (index) => {
-    setShowEditModal(true);
-    setEditedChannel(data[index]);
+    dispatch(setModal({ modal: modalTypes.EDIT, selectedChannel: data[index] }));
+  };
+
+  const renderModal = () => {
+    if (!modal) return null;
+
+    const Component = modals[modal];
+    return <Component />;
   };
 
   if (isLoading) return null;
@@ -86,7 +100,7 @@ const ChannelList = () => {
     <div className="d-flex flex-column bg-dark-subtle border-end h-100">
       <Container className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('chat.channels')}</b>
-        <Button className="p-0 btn-group-vertical text-primary" variant="" onClick={() => setShowCreateModal(true)}>
+        <Button className="p-0 btn-group-vertical text-primary" variant="" onClick={handleCreate}>
           <PlusSquare />
           <span className="visually-hidden">+</span>
         </Button>
@@ -96,35 +110,7 @@ const ChannelList = () => {
           {renderNavItems(data)}
         </Nav>
       </Container>
-      {
-        showCreateModal
-        && (
-        <ChannelCreationModal
-          show={showCreateModal}
-          setShow={setShowCreateModal}
-        />
-        )
-}
-      {
-        showDeleteModal
-        && (
-        <ChannelDeletionModal
-          show={showDeleteModal}
-          setShow={setShowDeleteModal}
-          selectedChannel={editedChannel}
-        />
-        )
-}
-      {
-        showEditModal
-        && (
-        <ChannelEditModal
-          show={showEditModal}
-          setShow={setShowEditModal}
-          selectedChannel={editedChannel}
-        />
-        )
-}
+      {renderModal()}
     </div>
   );
 };
