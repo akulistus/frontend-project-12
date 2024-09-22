@@ -4,10 +4,12 @@ import LoginPage from '../pages/login-page/LoginPage';
 import ChatPage from '../pages/chat-page/ChatPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import SignUpPage from '../pages/signup-page/SignUpPage';
+import routes from '../helpers/routes';
+import { getToken } from '../slices/userSlice';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: routes.homePagePath(),
     element: <HomePage />,
     errorElement: <ErrorPage />,
     children: [
@@ -15,19 +17,19 @@ const router = createBrowserRouter([
         index: true,
         element: <ChatPage />,
         loader: async () => {
-          const token = window.localStorage.getItem('token');
+          const token = getToken();
           if (!token) {
-            return redirect('login');
+            return redirect(routes.loginPagePath());
           }
           return null;
         },
       },
       {
-        path: 'login',
+        path: routes.loginPagePath(),
         element: <LoginPage />,
       },
       {
-        path: 'signup',
+        path: routes.signupPagePath(),
         element: <SignUpPage />,
       },
     ],

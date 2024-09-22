@@ -1,11 +1,14 @@
 import api from './api';
 import socket from '../sockets';
 import { setDefault } from '../slices/channelSlice';
+import routes from '../helpers/routes';
+
+const channelApiPath = routes.channelApiPath();
 
 const channelApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getChannels: builder.query({
-      query: () => 'channels',
+      query: () => channelApiPath,
       async onCacheEntryAdded(
         arg,
         {
@@ -40,20 +43,20 @@ const channelApi = api.injectEndpoints({
     }),
     addChannel: builder.mutation({
       query: (newChannel) => ({
-        url: 'channels',
+        url: channelApiPath,
         method: 'POST',
         body: newChannel,
       }),
     }),
     removeChannel: builder.mutation({
       query: (id) => ({
-        url: `channels/${id}`,
+        url: [channelApiPath, id].join('/'),
         method: 'DELETE',
       }),
     }),
     editChannel: builder.mutation({
       query: (newChannel) => ({
-        url: `channels/${newChannel.id}`,
+        url: [channelApiPath, newChannel.id].join('/'),
         method: 'PATCH',
         body: newChannel.body,
       }),

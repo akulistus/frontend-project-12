@@ -1,10 +1,13 @@
 import api from './api';
 import socket from '../sockets';
+import routes from '../helpers/routes';
+
+const messageApiPath = routes.messageApiPath();
 
 const messageApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getMessages: builder.query({
-      query: () => 'messages',
+      query: () => messageApiPath,
       async onCacheEntryAdded(
         arg,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved },
@@ -32,7 +35,7 @@ const messageApi = api.injectEndpoints({
     }),
     postMessage: builder.mutation({
       query: (message) => ({
-        url: 'messages',
+        url: messageApiPath,
         method: 'POST',
         body: message,
       }),

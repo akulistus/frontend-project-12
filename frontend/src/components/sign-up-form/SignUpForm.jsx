@@ -3,12 +3,14 @@ import * as Yup from 'yup';
 
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { logIn } from '../../slices/userSlice';
 import { useSignUpMutation } from '../../services/loginApi';
 
 const SignUpForm = () => {
@@ -16,6 +18,7 @@ const SignUpForm = () => {
   const [registrationError, setRegistrationError] = useState(null);
   const [singUp, { isLoading }] = useSignUpMutation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
     username: Yup.string()
@@ -47,8 +50,7 @@ const SignUpForm = () => {
         const response = await singUp(newUser);
         const { data, error } = response;
         if (data) {
-          window.localStorage.setItem('token', data.token);
-          window.localStorage.setItem('username', data.username);
+          dispatch(logIn(data));
           navigate('/');
         } else if (error?.status !== 'FETCH_ERROR') {
           setRegistrationError(t('forms.signUpForm.errors.userAlreadyExists'));

@@ -1,16 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { logIn } from '../../slices/userSlice';
 import { useLoginMutation } from '../../services/loginApi';
 
 const LogInForm = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const [login, {
     isError, error, isLoading,
   }] = useLoginMutation();
@@ -26,8 +29,7 @@ const LogInForm = () => {
         const response = await login(values);
         const { data, err } = response;
         if (data) {
-          window.localStorage.setItem('token', data.token);
-          window.localStorage.setItem('username', data.username);
+          dispatch(logIn(data));
           navigate('/');
         } else if (err?.status !== 'FETCH_ERROR') {
           toast.error(t('notifications.connectionError'));
