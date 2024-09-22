@@ -21,7 +21,7 @@ i18n
   });
 
 const rollbarConfig = {
-  accessToken: '513cf3ff61864d08a5b5f6f8f36da12b',
+  accessToken: process.env.REACT_APP_ROLLBAR_APIKEY,
   environment: 'production',
 };
 

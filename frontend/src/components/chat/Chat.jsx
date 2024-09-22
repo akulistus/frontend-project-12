@@ -11,8 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { useGetMessagesQuery, usePostMessageMutation } from '../../services/api';
 
-const renderMessages = (messages, channelId) => messages
-  .filter((message) => message.channelId === channelId)
+const renderMessages = (messages) => messages
   .map((message) => (
     <div key={message.id} className="text-break md-2">
       <b>{message.username}</b>
@@ -29,12 +28,22 @@ const Chat = () => {
   const selectedChannel = useSelector((state) => state.channels.selected);
   const username = window.localStorage.getItem('username');
   const inputRef = useRef(null);
+  const scrollRef = useRef(null);
+
+  const messages = data?.filter((message) => message.channelId === selectedChannel.id);
 
   useEffect(() => {
     if (!isLoading && inputRef.current) {
       inputRef.current.focus();
     }
   });
+
+  useEffect(() => {
+    if (!isLoading && scrollRef.current) {
+      scrollRef.current.scrollIntoView();
+    }
+    console.log(process.env.REACT_APP_ROLLBAR_APIKEY);
+  }, [messages, isLoading]);
 
   if (isLoading) return null;
 
@@ -45,12 +54,13 @@ const Chat = () => {
           {`# ${selectedChannel.name}`}
         </p>
         <span className="text-muted">
-          {t('chat.message', { count: data.filter((message) => message.channelId === selectedChannel.id).length })}
+          {t('chat.message', { count: messages.length })}
         </span>
       </Container>
-      <Container fluid className="overflow-auto px-5">
-        {renderMessages(data, selectedChannel.id)}
-      </Container>
+      <div className="overflow-auto px-5">
+        {renderMessages(messages)}
+        <div ref={scrollRef} />
+      </div>
       <Container className="px-5 py-3 mt-auto">
         <Formik
           initialValues={{ message: '' }}

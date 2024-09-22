@@ -12,7 +12,7 @@ const ChatPage = () => (
       <Col md={2} className="px-0">
         <ChannelList />
       </Col>
-      <Col className="px-0">
+      <Col className="p-0 h-100">
         <Chat />
       </Col>
     </Row>
