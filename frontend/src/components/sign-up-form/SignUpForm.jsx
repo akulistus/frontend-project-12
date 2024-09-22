@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useSignUpMutation } from '../../services/api';
+import { useSignUpMutation } from '../../services/loginApi';
 
 const SignUpForm = () => {
   const { t } = useTranslation();

@@ -13,7 +13,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ChannelEditModal from '../channel-edit-modal/ChannelEditModal';
 import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
 import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
-import { useGetChannelsQuery } from '../../services/api';
+import { useGetChannelsQuery } from '../../services/channelApi';
 import { setSelected, setDefault } from '../../slices/channelSlice';
 
 const ChannelList = () => {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import filter from 'leo-profanity';
 
 import { ToastContainer } from 'react-toastify';
 import Container from 'react-bootstrap/esm/Container';
@@ -9,10 +8,6 @@ import LogOutButton from '../../components/log-out-button/LogOutButton';
 
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
-
-const en = filter.list();
-filter.loadDictionary('ru');
-filter.add(en);
 
 const Home = () => (
   <div className="h-100 d-flex flex-column">

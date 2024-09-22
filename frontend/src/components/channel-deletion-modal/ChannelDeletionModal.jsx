@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { useRemoveChannelMutation } from '../../services/api';
+import { useRemoveChannelMutation } from '../../services/channelApi';
 
 const ChannelDeletionModal = (props) => {
   const { t } = useTranslation();

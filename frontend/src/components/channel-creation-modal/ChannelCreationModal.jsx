@@ -11,7 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { setSelected } from '../../slices/channelSlice';
-import { useGetChannelsQuery, useAddChannelMutation } from '../../services/api';
+import { useGetChannelsQuery, useAddChannelMutation } from '../../services/channelApi';
 
 const ChannelCreationModal = (props) => {
   const { t } = useTranslation();

@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { api } from './api';
+import api from './api';
 import channelReducer from '../slices/channelSlice';
 
 export default configureStore({

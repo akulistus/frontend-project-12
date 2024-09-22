@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { useGetMessagesQuery, usePostMessageMutation } from '../../services/api';
+import { useGetMessagesQuery, usePostMessageMutation } from '../../services/messageApi';
 
 const renderMessages = (messages) => messages
   .map((message) => (
@@ -42,7 +42,6 @@ const Chat = () => {
     if (!isLoading && scrollRef.current) {
       scrollRef.current.scrollIntoView();
     }
-    console.log(process.env.REACT_APP_ROLLBAR_APIKEY);
   }, [messages, isLoading]);
 
   if (isLoading) return null;
