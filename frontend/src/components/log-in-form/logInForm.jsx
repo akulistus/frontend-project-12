@@ -8,6 +8,7 @@ import { Formik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import routes from '../../helpers/routes';
 import { logIn } from '../../slices/userSlice';
 import { useLoginMutation } from '../../services/loginApi';
 
@@ -30,7 +31,7 @@ const LogInForm = () => {
         const { data, err } = response;
         if (data) {
           dispatch(logIn(data));
-          navigate('/');
+          navigate(routes.homePagePath());
         } else if (err?.status !== 'FETCH_ERROR') {
           toast.error(t('notifications.connectionError'));
         }

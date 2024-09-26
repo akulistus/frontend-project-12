@@ -9,7 +9,6 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { getUsername } from '../../slices/userSlice';
 import { useGetMessagesQuery, usePostMessageMutation } from '../../services/messageApi';
 
 const renderMessages = (messages) => messages
@@ -27,6 +26,7 @@ const Chat = () => {
   const [postMessage] = usePostMessageMutation();
 
   const selectedChannel = useSelector((state) => state.channels.selected);
+  const getUsername = useSelector((state) => state.user.getUsername);
   const username = getUsername();
   const inputRef = useRef(null);
   const scrollRef = useRef(null);

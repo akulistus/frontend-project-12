@@ -6,8 +6,10 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import LogInForm from '../../components/log-in-form/LogInForm';
+import LogInForm from '../../components/log-in-form/logInForm';
 import image from '../../assets/logInImage.jfif';
+
+import routes from '../../helpers/routes';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -24,7 +26,7 @@ const Login = () => {
             </Card.Body>
             <Card.Footer className="w-100 text-center p-4">
               {t('cards.logInCard.noAccount')}
-              <Link to="/signup">{t('cards.logInCard.register')}</Link>
+              <Link to={routes.signupPagePath()}>{t('cards.logInCard.register')}</Link>
             </Card.Footer>
           </Card>
         </Col>

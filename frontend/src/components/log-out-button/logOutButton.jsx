@@ -1,19 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { logOut, getUsername } from '../../slices/userSlice';
+import { logOut } from '../../slices/userSlice';
+import routes from '../../helpers/routes';
 
 const LogOutButton = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const getUsername = useSelector((state) => state.user.getUsername);
   const isAuth = getUsername();
 
   const handleClick = () => {
     dispatch(logOut());
-    navigate('/');
+    navigate(routes.homePagePath());
   };
 
   return (

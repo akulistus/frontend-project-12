@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  getUsername: () => window.localStorage.getItem('username'),
+  getToken: () => window.localStorage.getItem('token'),
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {},
+  initialState,
   reducers: {
     logIn: (state, { payload: { username, token } }) => {
       window.localStorage.setItem('token', token);
@@ -15,8 +20,5 @@ const userSlice = createSlice({
 });
 
 export const { logIn, logOut } = userSlice.actions;
-
-export const getToken = () => window.localStorage.getItem('token');
-export const getUsername = () => window.localStorage.getItem('username');
 
 export default userSlice.reducer;

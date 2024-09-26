@@ -4,7 +4,9 @@ import { Outlet, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Container from 'react-bootstrap/esm/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import LogOutButton from '../../components/log-out-button/LogOutButton';
+import LogOutButton from '../../components/log-out-button/logOutButton';
+
+import routes from '../../helpers/routes';
 
 import './app.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,7 +16,7 @@ const Home = () => (
     <Navbar bg="dark" data-bs-theme="dark" sticky="top">
       <Container>
         <Navbar.Brand>
-          <Link to="/" style={{ textDecoration: 'none' }}>Hexlet Chat</Link>
+          <Link to={routes.homePagePath()} style={{ textDecoration: 'none' }}>Hexlet Chat</Link>
         </Navbar.Brand>
         <LogOutButton />
       </Container>

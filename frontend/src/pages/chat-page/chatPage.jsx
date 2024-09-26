@@ -3,8 +3,8 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Chat from '../../components/chat/Chat';
-import ChannelList from '../../components/channel-list/ChannelList';
+import Chat from '../../components/chat/chat';
+import ChannelList from '../../components/channel-list/channelList';
 
 const ChatPage = () => (
   <Container className="h-100 shadow rounded overflow-hidden my-4">

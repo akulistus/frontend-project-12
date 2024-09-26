@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const defaultSelected = { id: '1', name: 'general', removable: false };
+
 const initialState = {
-  selected: { id: '1', name: 'general', removable: false },
+  selected: defaultSelected,
 };
 
 const channelSlice = createSlice({
@@ -14,7 +16,7 @@ const channelSlice = createSlice({
     }),
     setDefault: (state) => ({
       ...state,
-      selected: { id: '1', name: 'general', removable: false },
+      selected: defaultSelected,
     }),
   },
 });

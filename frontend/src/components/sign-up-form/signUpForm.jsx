@@ -10,6 +10,8 @@ import { Formik } from 'formik';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+
+import routes from '../../helpers/routes';
 import { logIn } from '../../slices/userSlice';
 import { useSignUpMutation } from '../../services/loginApi';
 
@@ -51,7 +53,7 @@ const SignUpForm = () => {
         const { data, error } = response;
         if (data) {
           dispatch(logIn(data));
-          navigate('/');
+          navigate(routes.homePagePath());
         } else if (error?.status !== 'FETCH_ERROR') {
           setRegistrationError(t('forms.signUpForm.errors.userAlreadyExists'));
         } else if (error?.status === 'FETCH_ERROR') {

@@ -1,11 +1,11 @@
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import HomePage from '../pages/home-page/HomePage';
-import LoginPage from '../pages/login-page/LoginPage';
-import ChatPage from '../pages/chat-page/ChatPage';
-import ErrorPage from '../pages/error-page/ErrorPage';
-import SignUpPage from '../pages/signup-page/SignUpPage';
+import HomePage from '../pages/home-page/homePage';
+import LoginPage from '../pages/login-page/loginPage';
+import ChatPage from '../pages/chat-page/chatPage';
+import ErrorPage from '../pages/error-page/errorPage';
+import SignUpPage from '../pages/signup-page/signUpPage';
 import routes from '../helpers/routes';
-import { getToken } from '../slices/userSlice';
+import store from '../services/index';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +17,7 @@ const router = createBrowserRouter([
         index: true,
         element: <ChatPage />,
         loader: async () => {
+          const { user: { getToken } } = store.getState();
           const token = getToken();
           if (!token) {
             return redirect(routes.loginPagePath());

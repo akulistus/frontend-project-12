@@ -14,12 +14,12 @@ import router from './routes/router';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const runApp = () => {
+const runApp = async () => {
   const en = filter.list();
   filter.loadDictionary('ru');
   filter.add(en);
 
-  i18n
+  await i18n
     .use(initReactI18next)
     .init({
       lng: 'ru',
