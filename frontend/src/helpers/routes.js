@@ -6,6 +6,6 @@ export default {
   signupApiPath: () => 'signup',
 
   homePagePath: () => '/',
-  loginPagePath: () => 'login',
-  signupPagePath: () => 'signup',
+  loginPagePath: () => '/login',
+  signupPagePath: () => '/signup',
 };
