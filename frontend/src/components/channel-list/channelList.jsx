@@ -13,9 +13,9 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { useGetChannelsQuery } from '../../services/channelApi';
 import { setSelected } from '../../slices/channelSlice';
 import { setModal } from '../../slices/modalSlice';
-import ChannelCreationModal from '../channel-creation-modal/ChannelCreationModal';
-import ChannelDeletionModal from '../channel-deletion-modal/ChannelDeletionModal';
-import ChannelEditModal from '../channel-edit-modal/ChannelEditModal';
+import ChannelCreationModal from '../channel-creation-modal/channelCreationModal';
+import ChannelDeletionModal from '../channel-deletion-modal/channelDeletionModal';
+import ChannelEditModal from '../channel-edit-modal/channelEditModal';
 
 const modalTypes = {
   CREATE: 'create',
